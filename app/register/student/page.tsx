@@ -86,6 +86,7 @@ const StudentRegisterPage = () => {
     confirmPassword: '',
     phone: '',
     address: '',
+    role: 'student',
     matchtest: {
       learningStyle:{
         visual: false,
@@ -133,22 +134,17 @@ const StudentRegisterPage = () => {
         no: false
       },
       learningChallenge: {
-        conceptTrouble: false,
-        timeManagement: false,
-        testAnxiety: false
+         conceptTrouble: false,
+         timeManagement: false,
+         testAnxiety: false
       },
       mentorQuality:{
         experiencedTeacher: false,
         industryExpert: false,
         doubtSolver: false
-      },
-      studentCharacter: {
-        enthusiastic: false,
-        selfMotivated: false,
-        curious: false
-      },
-      
-    } 
+      }
+    }
+
   })
 
   const handleRegister = () => {
@@ -534,7 +530,7 @@ const StudentRegisterPage = () => {
                 </div>
               </span>
 
-              <span className="flex flex-col">
+              {/* <span className="flex flex-col">
                 <b>Experience: </b>How many years of teaching experience do you
                 have?
                 <div className="flex flex-col">
@@ -542,11 +538,11 @@ const StudentRegisterPage = () => {
                     <input
                       type="radio"
                       name="experience"
-                      checked={form.matchtest.experience === "_1_3"}
+                      // checked={form.matchtest.experience === "_0"}
                       onChange={() => {
                         setForm({
                           ...form,
-                          matchtest: { ...form.matchtest, experience: "_1_3" },
+                          // matchtest: { ...form.matchtest, experience: "_1_3" },
                         });
                       }}
                     />{" "}
@@ -581,7 +577,7 @@ const StudentRegisterPage = () => {
                     7+ years
                   </div>
                 </div>
-              </span>
+              </span> */}
 
             </div>
 
@@ -777,7 +773,7 @@ const StudentRegisterPage = () => {
                 </div>
               </span>
 
-              <span className="flex flex-col">
+              {/* <span className="flex flex-col">
                 <b>Mentoring Method: </b>Have you had mentoring or tutoring experiences before?
                 <div className="flex flex-col">
                 <div className="m-2">
@@ -815,7 +811,7 @@ const StudentRegisterPage = () => {
                     No
                   </div>
                 </div>
-              </span>
+              </span> */}
 
               <span className="flex flex-col">
                 <b>Teaching Challenge: </b>What is your biggest challenge in
