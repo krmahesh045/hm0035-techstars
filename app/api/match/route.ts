@@ -11,7 +11,7 @@ export async function GET(request: NextRequest) {
   await connectMongoDB();
 
   try {
-    const userId = getDataFromToken(request);
+    const {userId, role} = getDataFromToken(request);
     
     const studentsArray = await Student.findOne({ userId });
     const mentorsArray = await Match.findOne().testData.data;

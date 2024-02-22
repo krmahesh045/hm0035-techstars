@@ -6,7 +6,7 @@ import User from "@/models/user";
 export async function GET(request: NextRequest) {
     await connectMongoDB();
     try {
-        const userId = getDataFromToken(request);
+        const {userId} = getDataFromToken(request);
         const data = await User.findOne({ _id: userId }).select('name');
         return NextResponse.json({
             message: "Success",
