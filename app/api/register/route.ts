@@ -65,7 +65,7 @@ export async function POST(request : NextRequest){
 
         // Increment the number field
         doc.count = doc.count + 1;
-
+        console.log(doc.count);
         let matchdata: String[] = [];
         for(const param in matchtest) {
             for(const value in matchtest[param]) {
@@ -79,10 +79,10 @@ export async function POST(request : NextRequest){
                 }
             }
         }
-
+        matchdata.push(other);
         // Append the new data array to the existing nested array
         doc.testData.data.push(matchdata);
-
+console.log("Doc.save.data hai yehh  :  ",doc.testData.data);
         await doc.save();   
         
         return NextResponse.json({
