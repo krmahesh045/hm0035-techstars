@@ -82,15 +82,12 @@ export async function POST(request : NextRequest){
         matchdata.push(other);
         // Append the new data array to the existing nested array
         doc.testData.data.push(matchdata);
-console.log("Doc.save.data hai yehh  :  ",doc.testData.data);
+        console.log("Doc.save.data hai yehh  :  ",doc.testData.data);
         await doc.save();   
         
         return NextResponse.json({
-            message: "Mentor Created.",
-            newUser,
-            mentor,
-            matchdata
-
+            status: 200,
+            message: "Mentor Created."
         });
     } 
     else {
