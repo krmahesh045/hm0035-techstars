@@ -127,6 +127,15 @@ const DashboardPage = (props: Props) => {
     }
   }
   
+  const fetchMentorData = async () => {
+    const response = await axios.get('/api/mentors');
+    if(response.status !== 200) {
+      console.error("Error fetching mentor data:", response);
+    }
+    else {
+      console.log("Mentor Data:", response.data.data);
+    }
+  }
 
   // fetch data of logged in data
   useEffect(() => {
