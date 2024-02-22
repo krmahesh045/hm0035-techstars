@@ -6,6 +6,7 @@ export async function GET() {
     try {
         // Logout the user
         const response = NextResponse.json({
+            status : 200,
             message :   "Logged out successfully",
             success: true
         })

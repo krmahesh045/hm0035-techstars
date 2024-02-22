@@ -31,10 +31,7 @@ export async function GET(request: NextRequest) {
             personalDetails: user,
             matchtest: mentor
         })
-    }
-    return  NextResponse.json({
-      message : "Success",
-    });
+    } 
 
   } catch (error) {
     console.error(error);
