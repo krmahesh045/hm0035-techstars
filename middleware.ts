@@ -24,7 +24,7 @@ export const config = {
 
     '/signin',
     '/register',
-    '/dashboard',
-    '/match'
+    '/student',
+    '/mentor'
   ],
 }

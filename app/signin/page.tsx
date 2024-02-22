@@ -1,5 +1,4 @@
 /* eslint-disable react/no-unescaped-entities */
-
 'use client'
 import React from 'react'
 import { useRouter } from 'next/navigation'
@@ -23,18 +22,21 @@ function SignInPage({}: Props) {
   
 
 
-  const handleSignIn = async () => {
-
-    console.log({email, password}); 
+  const handleSignIn = async () => { 
     
     try{
-      const response = await axios.post('/api/signin',{email,password});
+      const response:any = await axios.post('/api/signin',{email,password});
+      console.log(response);
       if(response.status !== 200) {
         setError("Error logging in. Please try again.");
         return NextResponse.json({ error: "Please enter email and password" });
       }
       else {
-        router.push('/dashboard');
+        if(response.data.role === "student")
+          router.push("/student/");
+        else if(response.data.role === "mentor")
+          router.push("/mentor/");
+        else
         return NextResponse.json({ message: "Successfully logged in." });
       } 
 
