@@ -2,7 +2,7 @@ import React from 'react'
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import Card from './card'
 import Link from 'next/link'
-import MentorDetail from './mentor/mentorDetail'
+import MentorDetail from './mentor/mentorDetail';
 
 
 type Props = {}
@@ -13,7 +13,7 @@ interface MentorData {
   role: string,
   phone: string,
   email: string,
-}
+} 
 
 const DashboardPage = (props: Props) => {
 

@@ -75,7 +75,6 @@ interface StudentRegisterForm {
 const StudentRegisterPage = () => {
   
   const [form, setForm] = React.useState<StudentRegisterForm>({
-<<<<<<< HEAD
     name: "",
     email: "",
     password: "",
@@ -83,15 +82,6 @@ const StudentRegisterPage = () => {
     phone: "",
     address: "",
     role: "student",
-=======
-    name: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
-    phone: '',
-    address: '',
-    role: 'student',
->>>>>>> 003ebd0f71655caeba2077c2377e13566aab3fb9
     matchtest: {
       learningStyle:{
         visual: false,
@@ -141,25 +131,14 @@ const StudentRegisterPage = () => {
       learningChallenge: {
          conceptTrouble: false,
          timeManagement: false,
-<<<<<<< HEAD
          testAnxiety: false,
-=======
-         testAnxiety: false
->>>>>>> 003ebd0f71655caeba2077c2377e13566aab3fb9
       },
       mentorQuality:{
         experiencedTeacher: false,
         industryExpert: false,
-<<<<<<< HEAD
         doubtSolver: false,
       }
     }
-=======
-        doubtSolver: false
-      }
-    }
-
->>>>>>> 003ebd0f71655caeba2077c2377e13566aab3fb9
   })
 
   const handleRegister = async () => {
@@ -558,22 +537,15 @@ const StudentRegisterPage = () => {
                   </div>
                 </div>
               </span>
-<<<<<<< HEAD
 {/* radio button */}
               <span className="flex flex-col">
                 <b>Experience: </b>How many years of learning experience  do you
-=======
-
-              {/* <span className="flex flex-col">
-                <b>Experience: </b>How many years of teaching experience do you
->>>>>>> 003ebd0f71655caeba2077c2377e13566aab3fb9
                 have?
                 <div className="flex flex-col">
                   <div className="m-2">
                     <input
                       type="radio"
                       name="experience"
-<<<<<<< HEAD
                       checked={form.matchtest.experience._0}
                       onChange={() => {
                         setForm({
@@ -583,13 +555,6 @@ const StudentRegisterPage = () => {
                             _2: false,
                             _4:false,
                           }},
-=======
-                      // checked={form.matchtest.experience === "_0"}
-                      onChange={() => {
-                        setForm({
-                          ...form,
-                          // matchtest: { ...form.matchtest, experience: "_1_3" },
->>>>>>> 003ebd0f71655caeba2077c2377e13566aab3fb9
                         });
                       }}
                     />{" "}
@@ -632,7 +597,7 @@ const StudentRegisterPage = () => {
                     4+ years
                   </div>
                 </div>
-              </span> */}
+              </span>
 
             </div>
 
@@ -828,14 +793,9 @@ const StudentRegisterPage = () => {
                 </div>
               </span>
 
-<<<<<<< HEAD
 {/* radio button */}
               <span className="flex flex-col">
                 <b>Mentoring Experience: </b>Have you had mentoring or tutoring experiences before?
-=======
-              {/* <span className="flex flex-col">
-                <b>Mentoring Method: </b>Have you had mentoring or tutoring experiences before?
->>>>>>> 003ebd0f71655caeba2077c2377e13566aab3fb9
                 <div className="flex flex-col">
                 <div className="m-2">
                     <input
@@ -878,7 +838,7 @@ const StudentRegisterPage = () => {
                     No
                   </div>
                 </div>
-              </span> */}
+              </span>
 
               <span className="flex flex-col">
                 <b>Learning Challenge: </b>What is your biggest challenge in
