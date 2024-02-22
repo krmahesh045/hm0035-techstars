@@ -6,6 +6,7 @@ import Card from './card'
 import Link from 'next/link'
 import axios from 'axios'
 import { useRouter } from 'next/navigation'
+import { useEffect } from 'react'
 
 
 type Props = {}
@@ -29,7 +30,7 @@ const DashboardPage = (props: Props) => {
       image: "pic1.jpg",
       role: "Web Developer",
       phone: "1234567890",
-      email: "Click this card to see more details about this mentor.",
+      email: "a@gmail.com",
     },
     {
       name: "Jenny Doe",
@@ -113,12 +114,56 @@ const DashboardPage = (props: Props) => {
     }
   }
 
+  const fetchData = async () => {
+    // Retrieve token from cookies
+    const cookies = document.cookie.split(';');
+
+    let token = null;
+    cookies.forEach(cookie => {
+      const [name, value] = cookie.split('=');
+      if (name.trim() === 'token') {
+        token = value;
+      }
+    });
+
+  
+    if (!token) {
+      console.error("Token not found in cookies.");
+      return;
+    }else {
+      console.log("Token found in cookies:", token);
+    }
+  
+    // try {
+    //   // Make a request using Axios with the retrieved token
+    //   const response = await axios.get('/api/user', {
+    //     headers: {
+    //       Authorization: `Bearer ${token}` // Assuming your API expects a Bearer token
+    //     }
+    //   });
+  
+    //   // Handle response
+    //   if (response.status !== 200) {
+    //     console.error("Error fetching user data:", response);
+    //   } else {
+    //     console.log("User data:", response.data);
+    //   }
+    // } catch (error) {
+    //   console.error("Error fetching user data:", error);
+    // }
+  }
+  
+
+  // fetch data of logged in data
+  useEffect(() => {
+      fetchData();
+  } ,[])
+
 
 
 
   return (
     <div className='h-screen w-screen bg-white p-5 flex flex-col overflow-x-hidden'>
-      <h1>STudent PAGE</h1>
       {/* navbar */}
       <div className="w-full h-28 rounded-2xl shadow-2xl bg-zinc-800 text-white pl-10 flex items-center justify-between">
         <div className="flex items-center gap-4">
