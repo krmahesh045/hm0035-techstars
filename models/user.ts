@@ -8,8 +8,7 @@ const userSchema = new Schema({
     phone: { type: String },
     address: { type: String },
     role: { type: String, enum: ['student', 'mentor'], required: true},
-    experties: {type : String},
-    skills: {type : Array}
+    experties: {type : String}
 });
 
 const User = mongoose.models.User || mongoose.model('User', userSchema)
