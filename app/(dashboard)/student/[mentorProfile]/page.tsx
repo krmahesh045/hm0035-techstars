@@ -108,7 +108,7 @@ const MentorDetailPage: FC<MentorProfileProps> = ({params}) => {
 
   return (
     <div className="h-screen w-screen bg-white flex flex-col">
-      <div className='w-full h-80 bg-gray-700 flex'>
+      <div className='w-full h-[30vh] bg-gray-700 flex'>
 
         <div className=''> 
           <Image
@@ -159,13 +159,22 @@ const MentorDetailPage: FC<MentorProfileProps> = ({params}) => {
       </div>
       
 
-      <div className='flex flex-col'>
+      <div className='flex flex-col w-full'>
 
         <div className='w-1/2'>
           <h1 className='text-3xl font-semibold mb-10'>About</h1>
           <p className='text-lg'>
             {mentorData.mentor.about}
           </p>
+        </div>
+
+        <div>
+          <h1 className='text-3xl font-semibold mb-10'>Links</h1>
+          <div className='flex gap-4 p-2'>
+              <iframe src="https://www.youtube.com/" width="300" height="200" className='rounded-xl' />
+              <iframe src={mentorData.mentor.linkedin} width="300" height="200" className='rounded-xl' />
+              <iframe src={mentorData.mentor.youtube} width="300" height="200" className='rounded-xl' />
+          </div>
         </div>
         
         <div className='w-full flex flex-col h-aut p-5 pt-10'>
