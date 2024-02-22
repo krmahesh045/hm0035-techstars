@@ -3,11 +3,11 @@ import mongoose, {Schema} from 'mongoose';
 
 const userSchema = new Schema({
     name: { type: String },
-    email: { type: String, required: true},
+    email: { type: String, required: true , unique: true},
     password: { type: String , required: true},
     phone: { type: String },
     address: { type: String },
-    role: { type: String, enum: ['student', 'mentor'], required: true },
+    role: { type: String, enum: ['student', 'mentor'], required: true},
     experties: {type : String},
     skills: {type : Array}
 });

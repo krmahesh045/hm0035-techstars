@@ -550,7 +550,7 @@ const StudentRegisterPage = () => {
               </span>
 
               <span className="flex flex-col">
-                <b>Avaliability: </b>When are you available to teach?
+                <b>Avaliability: </b>When are you available to learn?
                 <div className="flex flex-col">
                   <div className="m-2">
                     <input
