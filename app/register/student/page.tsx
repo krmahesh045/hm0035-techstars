@@ -20,6 +20,8 @@ interface StudentRegisterForm {
   about: string;
   github: string;
   linkedin: string;
+  other: string;
+
   matchtest: {
     learningStyle:{
       visual: boolean
@@ -94,6 +96,7 @@ const StudentRegisterPage = () => {
     about: "",
     github: "",
     linkedin: "",
+    other: "",
     matchtest: {
       learningStyle:{
         visual: false,
@@ -202,7 +205,7 @@ const StudentRegisterPage = () => {
       <div className="flex  w-screen ml-1/3 mt-[100px]">
 
       {/* form 1 */}
-        <div className="h-[90vh]  border-2   border-zinc-400 p-5 w-[424px] rounded-xl   ">
+        <div className="h-auto bg-gray-800 text-white  border-2   border-zinc-400 p-5 w-[424px] rounded-xl   ">
           <h1 className="text-3xl  font-bold mb-10"> Personal Information</h1>
 
           <div className="flex flex-col gap-3 ">
@@ -1038,6 +1041,17 @@ const StudentRegisterPage = () => {
                     Doubt Solver
                   </div>
                 </div>
+              </span>
+              <span>
+                <b>Other qulity you want in mentoe?</b>
+                  <textarea
+                    className="p-2 bg-transparent rounded-md border-2 border-zinc-500 w-96 mb-2"
+                    value={form.other}
+                    onChange={(e) => {
+                      setForm({ ...form, other: e.target.value });
+                    }}
+                  />
+
               </span>
 
               <Button className=" text-white w-72 mt-10 ml-40 p-2 rounded-md" onClick={handleRegister}>

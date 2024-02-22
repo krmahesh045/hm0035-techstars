@@ -20,6 +20,7 @@ interface TeacherRegisterForm {
   udemy: string;
   linkedin: string;
   youtube: string;
+  other: string;
 
   matchtest: {
     teachstyle: {
@@ -96,6 +97,7 @@ const TeacherRegisterPage = () => {
     udemy: "",
     linkedin: "",
     youtube: "",
+    other: "",
     
     matchtest: {
       teachstyle: {
@@ -1058,6 +1060,16 @@ const TeacherRegisterPage = () => {
                     Curious
                   </div>
                 </div>
+              </span>
+              <span>
+                <b>Any Other thing you want to mention?</b>
+                <textarea
+                  className="p-2 bg-transparent rounded-md border-2 border-zinc-500 w-96 mb-2"
+                  value={form.other}
+                  onChange={(e) => {
+                    setForm({ ...form, other: e.target.value });
+                  }}
+                />
               </span>
 
               <Button className=" text-white w-72 mt-10 ml-40 p-2 rounded-md" onClick={handleRegister}>
