@@ -7,9 +7,7 @@ export async function GET(request: NextRequest) {
     await connectMongoDB();
     try {
         const userId = getDataFromToken(request);
-        console.log(userId);
         const data = await User.findOne({ _id: userId }).select('name');
-        console.log(data); 
         return NextResponse.json({
             message: "Success",
             data: data,
