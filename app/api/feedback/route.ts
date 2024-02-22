@@ -4,6 +4,10 @@ import connectMongoDB from '@/libs/mongodb';
 import { NextRequest, NextResponse } from "next/server";
 import Feedback from '@/models/feedback';
 import { getDataFromToken } from "@/helpers/getDataFromToken";
+import User from "@/models/user";
+import { ObjectId } from "mongodb";
+import jwt from "jsonwebtoken";
+
 connectMongoDB();
 
 export async function POST(request: NextRequest) {
@@ -13,11 +17,11 @@ export async function POST(request: NextRequest) {
     const {userId} = getDataFromToken(request);
     studentId = userId;
       // Validate and save feedback
-      console.log("database ")
+      // console.log("database ")
       const feed = new Feedback({ mentorId, studentId, message, starRating });
       const savedFeedback = await feed.save();
   
-      console.log("Saved feedback is:", savedFeedback);
+      // console.log("Saved feedback is:", savedFeedback);
   
       return NextResponse.json({
         message: "Feedback saved Successfully",

@@ -78,15 +78,19 @@ const DashboardPage = (props: Props) => {
     <div className='h-screen w-screen bg-white p-5 flex flex-col overflow-x-hidden'>
       {/* navbar */}
       <div className="w-full h-28 rounded-2xl shadow-2xl bg-zinc-800 text-white pl-10 flex items-center justify-between">
-        <div className="flex items-center gap-4">
-          <Avatar className='h-14 w-14 border-2 border-white'>
-            <AvatarImage src="https://github.com/shadcn.png" />
-            <AvatarFallback>CN</AvatarFallback>
-          </Avatar>
-          <h1 className='text-xl'>
-            {user}
-          </h1>
-        </div>
+
+        <Link href="/student/profile">
+        
+          <div className="flex items-center gap-4">
+            <Avatar className='h-14 w-14 border-2 border-white'>
+              <AvatarImage src="https://github.com/shadcn.png" />
+              <AvatarFallback>CN</AvatarFallback>
+            </Avatar>
+            <h1 className='text-xl'>
+              {user}
+            </h1>
+          </div>
+        </Link>
 
         <div className='flex gap-8 ml-auto'>
           {/* Filter icon */}
@@ -127,7 +131,9 @@ const DashboardPage = (props: Props) => {
       </div>
 
       <div className='p-5 w-full h-auto flex gap-20'>
-        <h1 className='font-bold text-3xl'>Mentors <span className='text-violet-500'>10</span></h1>
+        <h1 className='font-bold text-3xl'>Mentors <span className='text-violet-500'>
+          {mentordata.length}  
+        </span></h1>
       </div>
       <div className='w-full h-auto '>
 
