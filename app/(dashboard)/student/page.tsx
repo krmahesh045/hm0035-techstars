@@ -6,6 +6,8 @@ import Card from './card'
 import Link from 'next/link'
 import axios from 'axios'
 import { useRouter } from 'next/navigation'
+import { useEffect } from 'react'
+import { useState } from 'react'
 
 
 type Props = {}
@@ -20,9 +22,11 @@ interface MentorData {
 
 const DashboardPage = (props: Props) => {
 
-  
-  // Mentor dummy Data for testing
+  // veiables
 
+  const[user, setUser] = useState("user"); // user data
+
+  // Mentor dummy Data for testing
   const MentorData = [
     {
       name: "Rachel Smith",
@@ -113,12 +117,27 @@ const DashboardPage = (props: Props) => {
     }
   }
 
+  const fetchData = async () => {
+    const response = await axios.get('/api/user');
+    if(response.status !== 200) {
+      console.error("Error fetching user data:", response);
+    }
+    else {
+      setUser(response.data.data.name);
+    }
+  }
+  
+
+  // fetch data of logged in data
+  useEffect(() => {
+      fetchData();
+  } ,[])
+
 
 
 
   return (
     <div className='h-screen w-screen bg-white p-5 flex flex-col overflow-x-hidden'>
-      <h1>STudent PAGE</h1>
       {/* navbar */}
       <div className="w-full h-28 rounded-2xl shadow-2xl bg-zinc-800 text-white pl-10 flex items-center justify-between">
         <div className="flex items-center gap-4">
@@ -127,7 +146,7 @@ const DashboardPage = (props: Props) => {
             <AvatarFallback>CN</AvatarFallback>
           </Avatar>
           <h1 className='text-xl'>
-            Swapnil Kapale
+            {user}
           </h1>
         </div>
 
@@ -169,12 +188,8 @@ const DashboardPage = (props: Props) => {
         </div>
       </div>
 
-
       <div className='p-5 w-full h-auto flex gap-20'>
         <h1 className='font-bold text-3xl'>Mentors <span className='text-violet-500'>{MentorData.length}</span></h1>
-        <div className='bg-red-200 rounded-xl p-2'>
-          <h1 className='text-red-600 '>This app is in building phase dummy data is shown below</h1>
-        </div>
       </div>
       <div className='w-full h-auto '>
 
@@ -184,7 +199,6 @@ const DashboardPage = (props: Props) => {
             <Card key={index} mentorData={mentorData} />
           ))}
         </div>
-
 
       </div>
 
