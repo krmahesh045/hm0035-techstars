@@ -1,6 +1,7 @@
 // Import the necessary modules
 import connectMongoDB from "@/libs/mongodb";
 import { NextRequest, NextResponse } from "next/server";
+import User from "@/models/user";
 import Mentor from "@/models/mentor";
 
 // Ensure MongoDB connection is established at the application level
@@ -10,8 +11,26 @@ connectMongoDB();
 export async function GET(request: NextRequest) {
     try {
         // Fetch all mentors from the MongoDB collection
-        const mentors = await Mentor.find();
+        let mentors = await Mentor.find().select('userId');
+        let mentorData = [];
+        for (let mentor of mentors) {
+            try {
+                const user = await User.findOne({ _id: mentor.userId }).select('_id name mobile email');
+                const roles = [];
+                for (const key in mentor.subject) {
+                    if (mentor.subject[key]) {
+                        roles.push(key);
+                    }
+                }
+                mentorData.push({ user, roles });
+            } catch (error) {
+                console.error('Error updating mentor:', error);
+            }
+        }
 
+
+
+        // If no mentors are found, return an error response
         if (!mentors || mentors.length === 0) {
             return NextResponse.json({
                 message: "No mentors found.",
@@ -23,7 +42,7 @@ export async function GET(request: NextRequest) {
         return NextResponse.json({
             message: "Mentors data fetched successfully.",
             status: 200,
-            mentors
+            mentorData
         });
     } catch (error) {
         // Handle errors
