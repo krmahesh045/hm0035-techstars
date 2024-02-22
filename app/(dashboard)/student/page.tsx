@@ -150,9 +150,6 @@ const DashboardPage = (props: Props) => {
       fetchMentorData();
   } ,[])
 
-
-
-
   return (
     <div className='h-screen w-screen bg-white p-5 flex flex-col overflow-x-hidden'>
       {/* navbar */}

@@ -1,10 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import Mentor from "@/models/mentor";
+import User from "@/models/user";
 import connectMongoDB from "@/libs/mongodb";
 
 connectMongoDB();
 
-export async function GET(request: NextRequest) {
+export async function POST(request: NextRequest) {
     try {
         const { userId } =  await request.json();
         const mentor = await Mentor.findOne({ userId }).select('userId experties skills qualification about udemy linkedin youtube');
@@ -15,9 +16,11 @@ export async function GET(request: NextRequest) {
             });
         }
         
+        const user = await User.findOne({ _id: mentor.userId }).select('_id name phone email address');
         return NextResponse.json({
             message: "Mentor data fetched successfully.",
             status: 200,
+            user,
             mentor
         });
     } catch (error) {
