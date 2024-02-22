@@ -1,9 +1,9 @@
-//  Purpose: This file contains the teacher registration page. It contains the form for the teacher to fill in their details and preferences. The form is divided into two parts. The first part contains the personal information of the teacher and the second part contains the preferences of the teacher. The form is divided into two parts to make it easier for the teacher to fill in the details. The form contains the following fields:
-
+// Purpose: This file contains the student registration page.
 "use client";
 import React from "react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import axios from "axios";
 
 interface TeacherRegisterForm {
   name: string;
@@ -80,7 +80,7 @@ const TeacherRegisterPage = () => {
     confirmPassword: "",
     phone: "",
     address: "",
-    role: "",
+    role: "mentor",
     matchtest: {
       teachstyle: {
         visual: false,
@@ -140,26 +140,26 @@ const TeacherRegisterPage = () => {
     },
   });
 
-  const handleRegister = () => {
-    //  fetch("http://localhost:3000/api/register", {
-    //   method: "POST",
-    //   body: JSON.stringify(form),
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    // }).then((res) => {
-    //   if (res.ok) {
-    //     return res.json();
-    //   }
-    //   return res.json().then((json) => Promise.reject(json));
-    // });
+  const handleRegister = async () => {
+    console.log(form);
+      try {
+        // Make a POST request to your API route
+        const response = await axios.post('/api/register', form);
+
+        if (response.data.message === 'Student Created.' || response.data.message === 'Mentor Created.') {
+          // Handle success, e.g., show a success message
+          console.log(response.data.message);
+        } else {
+          // Handle error, e.g., show an error message
+          console.error('Registration failed');
+        }
+      } catch (error) {
+        console.error(error);
+      }
   }
 
-
   return (
-
     <div className="h-screen w-screen p-5   ">
-      
       {/* topbar */}
       <div className="h-[10vh] w-screen flex bg-white gap-5 items-center fixed">
         <svg
@@ -537,6 +537,7 @@ const TeacherRegisterPage = () => {
                 </div>
               </span>
 
+{/* radio button */}
               <span className="flex flex-col">
                 <b>Experience: </b>How many years of teaching experience do you
                 have?
@@ -545,11 +546,15 @@ const TeacherRegisterPage = () => {
                     <input
                       type="radio"
                       name="experience"
-                      checked={form.matchtest.experience === "_1_3"}
+                      checked={form.matchtest.experience._1_3}
                       onChange={() => {
                         setForm({
                           ...form,
-                          matchtest: { ...form.matchtest, experience: "_1_3" },
+                          matchtest: { ...form.matchtest, experience: {
+                            _1_3: true,
+                            _4_6: false,
+                            _7: false
+                          }},
                         });
                       }}
                     />{" "}
@@ -559,11 +564,16 @@ const TeacherRegisterPage = () => {
                     <input
                       type="radio"
                       name="experience"
-                      checked={form.matchtest.experience === "_4_6"}
+                      checked={form.matchtest.experience._4_6}
                       onChange={() => {
                         setForm({
                           ...form,
-                          matchtest: { ...form.matchtest, experience: "_4_6" },
+                          matchtest: { ...form.matchtest, experience: {
+                            _1_3:false,
+                            _4_6: true,
+                            _7: false
+                          },
+                        }
                         });
                       }}
                     />{" "}
@@ -573,11 +583,15 @@ const TeacherRegisterPage = () => {
                     <input
                       type="radio"
                       name="experience"
-                      checked={form.matchtest.experience === "_7"}
+                      checked={form.matchtest.experience._7}
                       onChange={() => {
                         setForm({
                           ...form,
-                          matchtest: { ...form.matchtest, experience: "_7" },
+                          matchtest: { ...form.matchtest, experience: {
+                            _1_3:false,
+                            _4_6: false,
+                            _7: true
+                          } },
                         });
                       }}
                     />{" "}
@@ -781,6 +795,7 @@ const TeacherRegisterPage = () => {
                 </div>
               </span>
 
+{/* radio button */}
               <span className="flex flex-col">
                 <b>Mentoring Experience: </b>Do you have any experience in
                 mentoring?
@@ -789,13 +804,16 @@ const TeacherRegisterPage = () => {
                     <input
                       type="radio"
                       name="mentoringExperience"
-                      checked={form.matchtest.mentoringExperience === "yes"}
+                      checked={form.matchtest.mentoringExperience.yes}
                       onChange={() => {
                         setForm({
                           ...form,
                           matchtest: {
                             ...form.matchtest,
-                            mentoringExperience: "yes",
+                            mentoringExperience: {
+                              yes:true,
+                              no:false
+                            }
                           },
                         });
                       }}
@@ -806,13 +824,16 @@ const TeacherRegisterPage = () => {
                     <input
                       type="radio"
                       name="mentoringExperience"
-                      checked={form.matchtest.mentoringExperience === "no"}
+                      checked={form.matchtest.mentoringExperience.no}
                       onChange={() => {
                         setForm({
                           ...form,
                           matchtest: {
                             ...form.matchtest,
-                            mentoringExperience: "no",
+                            mentoringExperience: {
+                              yes:false,
+                              no:true
+                            },
                           },
                         });
                       }}

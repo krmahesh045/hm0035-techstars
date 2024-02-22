@@ -4,7 +4,10 @@ const mongoose = require('mongoose');
 const studentSchema = new mongoose.Schema({
     userId: { 
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User' 
+        ref: 'User',
+    },
+    testData : {
+        type: Array
     },
     learningStyle: {
         visual: { type: Boolean },
@@ -30,7 +33,7 @@ const studentSchema = new mongoose.Schema({
     experience: {
         _0: { type: Boolean },
         _2: { type: Boolean },
-        _6: { type: Boolean }
+        _4: { type: Boolean }
     },
     subject: {
         aiml: { type: Boolean },
@@ -42,12 +45,15 @@ const studentSchema = new mongoose.Schema({
         moderate: { type: Boolean },
         fast: { type: Boolean }
     },
-    teachingMethod: {
+    learningMethod: {
         exampleBased: { type: Boolean },
         interactionBased: { type: Boolean },
         problemBased: { type: Boolean }
     },
-    mentoringExperience: { type: String },
+    mentoringExperience: { 
+        yes: { type: Boolean },
+        no: { type: Boolean }
+    },
     learningChallenges: {
         conceptTrouble: { type: Boolean },
         timeManagement: { type: Boolean },

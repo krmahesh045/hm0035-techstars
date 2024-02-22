@@ -1,161 +1,165 @@
 // Purpose: This file contains the student registration page.
-
 "use client";
 import React from "react";
-import { Input } from "@/components/ui/input";
-import { Checkbox } from "@/components/ui/checkbox";
-import { Value } from "@radix-ui/react-select";
-import { checkCustomRoutes } from "next/dist/lib/load-custom-routes";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import axios from "axios";
 
-const StudentRegisterPage = () => {
-
-  interface StudentRegisterForm {
-    name: string;
-    email: string;
-    password: string;
-    confirmPassword: string;
-    phone: string;
-    address: string;
-    role: string;
-    matchtest: {
-      learningStyle:{
-        visual: boolean
-        auditory: boolean
-        kinesthetic: boolean
-      };
-      communication: {
-        recordedLecture: boolean
-        message: boolean
-        videoCall: boolean
-      };
-      goal: {
-        clarifyConcept: boolean
-        improveGrades: boolean
-        prepareForExam: boolean
-        careerGuidance: boolean
-      };
-      availability: {
-        _1_2: boolean
-        _3_5: boolean
-        _6: boolean
-      };
-      experience: {
-        _0: boolean
-        _2: boolean
-        _6: boolean
-      };
-      subject: {
-        aiml: boolean
-        webdev: boolean
-        appdev: boolean
-      };
-      pace: {
-        slow: boolean
-        moderate: boolean
-        fast: boolean
-      };
-      teachingMethod: {
-        exampleBased: boolean
-        interactionBased: boolean
-        problemBased: boolean
-      };
-      mentoringExperience: {
-        yes: boolean
-        no: boolean
-      };
-      learningChallenge: {
-         conceptTrouble: boolean
-         timeManagement: boolean
-         testAnxiety: boolean
-      };
-      mentorQuality:{
-        experiencedTeacher: boolean
-        industryExpert: boolean
-        doubtSolver: boolean
-      }
+interface StudentRegisterForm {
+  name: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+  phone: string;
+  address: string;
+  role: string;
+  matchtest: {
+    learningStyle:{
+      visual: boolean
+      auditory: boolean
+      kinesthetic: boolean
+    };
+    communication: {
+      recordedLecture: boolean
+      message: boolean
+      videoCall: boolean
+    };
+    goal: {
+      clarifyConcept: boolean
+      improveGrades: boolean
+      prepareForExam: boolean
+      careerGuidance: boolean
+    };
+    availability: {
+      _1_2: boolean
+      _3_5: boolean
+      _6: boolean
+    };
+    experience: {
+      _0: boolean
+      _2: boolean
+      _4: boolean
+    };
+    subject: {
+      aiml: boolean
+      webdev: boolean
+      appdev: boolean
+    };
+    pace: {
+      slow: boolean
+      moderate: boolean
+      fast: boolean
+    };
+    teachingMethod: {
+      exampleBased: boolean
+      interactionBased: boolean
+      problemBased: boolean
+    };
+    mentoringExperience: {
+      yes: boolean
+      no: boolean
+    };
+    learningChallenge: {
+       conceptTrouble: boolean
+       timeManagement: boolean
+       testAnxiety: boolean
+    };
+    mentorQuality:{
+      experiencedTeacher: boolean
+      industryExpert: boolean
+      doubtSolver: boolean
     }
   }
+}
 
+const StudentRegisterPage = () => {
   
   const [form, setForm] = React.useState<StudentRegisterForm>({
-    name: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
-    phone: '',
-    address: '',
+    name: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+    phone: "",
+    address: "",
+    role: "student",
     matchtest: {
       learningStyle:{
         visual: false,
         auditory: false,
-        kinesthetic: false
+        kinesthetic: false,
       },
       communication: {
         recordedLecture: false,
         message: false,
-        videoCall: false
+        videoCall: false,
       },
       goal: {
         clarifyConcept: false,
         improveGrades: false,
         prepareForExam: false,
-        careerGuidance: false
+        careerGuidance: false,
       },
       availability: {
         _1_2: false,
         _3_5: false,
-        _6: false
+        _6: false,
       },
       experience: {
         _0: false,
         _2: false,
-        _6: false
+        _4: false,
       },
       subject: {
         aiml: false,
         webdev: false,
-        appdev: false
+        appdev: false,
       },
       pace: {
         slow: false,
         moderate: false,
-        fast: false
+        fast: false,
       },
       teachingMethod: {
         exampleBased: false,
         interactionBased: false,
-        problemBased: false
+        problemBased: false,
       },
       mentoringExperience: {
         yes: false,
-        no: false
+        no: false,
       },
       learningChallenge: {
-        conceptTrouble: false,
-        timeManagement: false,
-        testAnxiety: false
+         conceptTrouble: false,
+         timeManagement: false,
+         testAnxiety: false,
       },
       mentorQuality:{
         experiencedTeacher: false,
         industryExpert: false,
-        doubtSolver: false
-      },
-      studentCharacter: {
-        enthusiastic: false,
-        selfMotivated: false,
-        curious: false
-      },
-      
-    } 
+        doubtSolver: false,
+      }
+    }
   })
 
-  const handleRegister = () => {
+  const handleRegister = async () => {
     console.log(form);
+      try {
+        // Make a POST request to your API route
+        const response = await axios.post('/api/register', form);
+        console.log("Response data is: " , response.data);
+        if (response.data.message === 'Student Created.' || response.data.message === 'Mentor Created.') {
+          // Handle success, e.g., show a success message
+          console.log(response.data.message);
+        } else {
+          // Handle error, e.g., show an error message
+          console.error('Registration failed');
+        }
+      } catch (error) {
+        console.error(error);
+      }
   }
-  return (
 
+  return (
     <div className="h-screen w-screen p-5   ">
       
       {/* topbar */}
@@ -533,52 +537,64 @@ const StudentRegisterPage = () => {
                   </div>
                 </div>
               </span>
-
+{/* radio button */}
               <span className="flex flex-col">
-                <b>Experience: </b>How many years of teaching experience do you
+                <b>Experience: </b>How many years of learning experience  do you
                 have?
                 <div className="flex flex-col">
                   <div className="m-2">
                     <input
                       type="radio"
                       name="experience"
-                      checked={form.matchtest.experience === "_1_3"}
+                      checked={form.matchtest.experience._0}
                       onChange={() => {
                         setForm({
                           ...form,
-                          matchtest: { ...form.matchtest, experience: "_1_3" },
+                          matchtest: { ...form.matchtest, experience: {
+                            _0: true,
+                            _2: false,
+                            _4:false,
+                          }},
                         });
                       }}
                     />{" "}
-                    1-3 years
+                    0 years
                   </div>
                   <div className="m-2">
                     <input
                       type="radio"
                       name="experience"
-                      checked={form.matchtest.experience === "_4_6"}
+                      checked={form.matchtest.experience._2}
                       onChange={() => {
                         setForm({
                           ...form,
-                          matchtest: { ...form.matchtest, experience: "_4_6" },
+                          matchtest: { ...form.matchtest, experience: {
+                            _0: false,
+                            _2: true,
+                            _4 :false
+                          } },
                         });
                       }}
                     />{" "}
-                    4-6 years
+                    2 years
                   </div>
                   <div className="m-2">
                     <input
                       type="radio"
                       name="experience"
-                      checked={form.matchtest.experience === "_7"}
+                      checked={form.matchtest.experience._4}
                       onChange={() => {
                         setForm({
                           ...form,
-                          matchtest: { ...form.matchtest, experience: "_7" },
+                          matchtest: { ...form.matchtest, experience: {
+                            _0: false,
+                            _2: false,
+                            _4: true
+                          }},
                         });
                       }}
                     />{" "}
-                    7+ years
+                    4+ years
                   </div>
                 </div>
               </span>
@@ -714,7 +730,7 @@ const StudentRegisterPage = () => {
               </span>
 
               <span className="flex flex-col">
-                <b>Teaching Method: </b>What is your preferred method of
+                <b>Learning Method: </b>What is your preferred method of
                 teaching?
                 <div className="flex flex-col">
                 <div className="m-2">
@@ -777,20 +793,24 @@ const StudentRegisterPage = () => {
                 </div>
               </span>
 
+{/* radio button */}
               <span className="flex flex-col">
-                <b>Mentoring Method: </b>Have you had mentoring or tutoring experiences before?
+                <b>Mentoring Experience: </b>Have you had mentoring or tutoring experiences before?
                 <div className="flex flex-col">
                 <div className="m-2">
                     <input
                       type="radio"
                       name="mentoringExperience"
-                      checked={form.matchtest.mentoringExperience === "yes"}
+                      checked={form.matchtest.mentoringExperience.yes}
                       onChange={() => {
                         setForm({
                           ...form,
                           matchtest: {
                             ...form.matchtest,
-                            mentoringExperience: "yes",
+                            mentoringExperience:{
+                              yes:true,
+                              no:false
+                            }
                           },
                         });
                       }}
@@ -801,13 +821,16 @@ const StudentRegisterPage = () => {
                     <input
                       type="radio"
                       name="mentoringExperience"
-                      checked={form.matchtest.mentoringExperience === "no"}
+                      checked={form.matchtest.mentoringExperience.no}
                       onChange={() => {
                         setForm({
                           ...form,
                           matchtest: {
                             ...form.matchtest,
-                            mentoringExperience: "no",
+                            mentoringExperience: {
+                              yes:false,
+                              no:true
+                            }
                           },
                         });
                       }}
@@ -818,8 +841,8 @@ const StudentRegisterPage = () => {
               </span>
 
               <span className="flex flex-col">
-                <b>Teaching Challenge: </b>What is your biggest challenge in
-                teaching?
+                <b>Learning Challenge: </b>What is your biggest challenge in
+                learning?
                 <div className="flex flex-col">
                 <div className="m-2">
                     <input
@@ -950,12 +973,8 @@ const StudentRegisterPage = () => {
                  <Link href="/register/success">Register</Link>
               </Button>
             </div>
-
           </div>
-
         </div>
-
-
       </div>
 
     </div>

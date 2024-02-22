@@ -8,6 +8,8 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button"
 import { useState } from 'react';
 import Link from 'next/link'
+import axios from 'axios';
+import { NextResponse } from 'next/server';
 
 type Props = {}
 
@@ -15,47 +17,31 @@ function SignInPage({}: Props) {
   
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [error, setError] = useState("This is beta phase use admin as usename and password");
-
-
+  // const [error, setError] = useState("This is beta phase use admin as usename and password");
   const router = useRouter();
+  
 
-  const handleSignIn = () => {
+
+  const handleSignIn = async () => {
+
+    console.log({email, password}); 
     
-    console.table({email, password}); //debugging
+    try{
+      const response = await axios.post('/api/login',{email,password});
+      if(response.status !== 200) {
+        return NextResponse.json({ error: "Please enter email and password" });
+      }
+      else {
+        router.push('/dashboard');
+        return NextResponse.json({ message: "Successfully logged in." });
+      } 
 
-    // fetch('/api/auth', {
-    //   method: 'POST',
-    //   headers: {
-    //     'Content-Type': 'application/json'
-    //   },
-    //   body: JSON.stringify({email, password})
-    // }
-    // ).then((data) => {
-    //   if(data.ok) {
-    //     return data.json();
-    //   }
-    //   return data.json().then((error) => {
-    //     throw new Error(error.message);
-    //   })
-
-    // })
-
-    if(!email || !password) {
-      setError("Please fill in all fields");
-      return;
+    }catch(error){
+      console.log(error);
     }
-    else if(email === "admin" || password === "admin") {
-      //redirect('/gallery');
-      router.push('/dashboard');
-    }
-    else {
-      setError("Invalid credentials");
-    }
-    
   }
 
+  
  
   return (
     <div className="h-screen w-screen flex items-center justify-center bg-[#FBF9F1]">
@@ -89,10 +75,7 @@ function SignInPage({}: Props) {
         </div>
 
         {/* sign in block */}
-        <div className="flex flex-col gap-1 items-center justify-center lg:w-[50%] bg-white w-full ">
-
-          
-            
+        <div className="flex flex-col gap-1 items-center justify-center lg:w-[50%] bg-white w-full ">  
                 <h2 className="text-3xl font-semibold">Welcome Back!</h2>
                 <h3>Enter your email and password to Sign in</h3>
                 <Input 
@@ -110,7 +93,7 @@ function SignInPage({}: Props) {
                   onChange={(e) => setPassword(e.target.value)}
                 />
       
-                <h3 className="text-red-500">{error}</h3>
+                {/* <h3 className="text-red-500">{error}</h3> */}
 
                 <Button 
                   className="w-96 mt-4"

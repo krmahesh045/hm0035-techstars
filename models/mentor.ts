@@ -2,9 +2,9 @@ const mongoose = require('mongoose');
 
 
 const mentorSchema = new mongoose.Schema({
-    user: {
+    userId: { 
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User'
+        ref: 'User' 
     },
     teachstyle: {
         visual: { type: Boolean },
@@ -28,9 +28,9 @@ const mentorSchema = new mongoose.Schema({
         _6: { type: Boolean }
     },
     experience: {
-        "_0": { type: Boolean },
-        "_2": { type: Boolean },
-        "_5":  { type: Boolean }
+        _1_3: { type: Boolean },
+        _4_6: { type: Boolean },
+        _7:  { type: Boolean }
     }, // Assuming this will be a string like "_4_6"
     subject: {
         aiml: { type: Boolean },
@@ -47,7 +47,10 @@ const mentorSchema = new mongoose.Schema({
         interactionBased: { type: Boolean },
         problemBased: { type: Boolean }
     },
-    mentoringExperience: { type: String }, // Assuming this will be a string like "yes" or "no"
+    mentoringExperience: { 
+        yes: { type: Boolean },
+        no: { type: Boolean }
+     }, // Assuming this will be a string like "yes" or "no"
     teachingChallenge: {
         learningStyle: { type: Boolean },
         timeManagement: { type: Boolean },
