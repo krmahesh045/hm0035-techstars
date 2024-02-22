@@ -12,7 +12,7 @@ export async function POST(request: NextRequest) {
     try {
         // Destructure email and password from the request JSON body
         const { email, password } = await request.json();
-        
+
         const user = await User.findOne({ email });
 
         if (!user) {
@@ -20,9 +20,9 @@ export async function POST(request: NextRequest) {
             console.log({
                 error: "User does not exist."
             });
-            return NextResponse.json({ 
+            return NextResponse.json({
                 status: 404,
-                error: "User does not exist." 
+                error: "User does not exist."
             });
         }
         // Compare the password
@@ -30,9 +30,10 @@ export async function POST(request: NextRequest) {
 
         if (!validPassword) {
             // If the password is invalid, return an error response
-            return NextResponse.json({ 
+            return NextResponse.json({
                 status: 401,
-                error: "Invalid password." });
+                error: "Invalid password."
+            });
         }
 
         // Create token data
@@ -46,10 +47,10 @@ export async function POST(request: NextRequest) {
         const token = jwt.sign(tokenData, process.env.SECRET_KEY!, { expiresIn: '1h' });
         console.log(token);
         // Return success response with token
-        const response =  NextResponse.json({
-            status : 200,
+        const response = NextResponse.json({
+            status: 200,
             message: "Successfully logged in.",
-            role : user.role
+            role: user.role
         });
 
         response.cookies.set("token", token, {
@@ -60,8 +61,9 @@ export async function POST(request: NextRequest) {
     } catch (error) {
         // Log the error and return an error response
         console.error("Error logging in:", error);
-        return NextResponse.json({ 
+        return NextResponse.json({
             status: 500,
-            error: "Error logging in. Please try again." });
+            error: "Error logging in. Please try again."
+        });
     }
 }
