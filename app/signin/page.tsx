@@ -30,6 +30,7 @@ function SignInPage({}: Props) {
     try{
       const response = await axios.post('/api/signin',{email,password});
       if(response.status !== 200) {
+        setError("Error logging in. Please try again.");
         return NextResponse.json({ error: "Please enter email and password" });
       }
       else {
@@ -38,7 +39,7 @@ function SignInPage({}: Props) {
       } 
 
     }catch(error){
-      console.error("Error logging in:", error);
+      console.error("Error logging in", error);
       setError("Error logging in. Please try again.");
     }
   }
