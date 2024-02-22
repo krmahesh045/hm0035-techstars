@@ -3,7 +3,6 @@ import { NextRequest, NextResponse } from "next/server";
 import User from "@/models/user"
 import Student from "@/models/student"
 import Mentor from "@/models/mentor"
-import Match from "@/models/match";
 import bcryptjs from "bcryptjs";
 
 export async function POST(request : NextRequest){
@@ -15,7 +14,7 @@ export async function POST(request : NextRequest){
     // Create a new user
     const newUser = await User.create({name, email, password: hashedPassword, phone, address, role});
     await newUser.save();
-
+    const userId = newUser._id;
 
     // Create a new student or mentor
     if(role === 'student'){
@@ -33,7 +32,7 @@ export async function POST(request : NextRequest){
             }
         }
 
-        const student = await Student.create({"userId": newUser._id, testData : matchdata,skills, qualification, about, github, linkedin, other, ...matchtest});
+        const student = await Student.create({userId, testData : matchdata,skills, qualification, about, github, linkedin, other, ...matchtest});
         await student.save();
         return NextResponse.json({
             message: "Student Created.",
@@ -44,29 +43,7 @@ export async function POST(request : NextRequest){
     }
     
     else if (role === 'mentor') {
-        const matchCount = await Match.countDocuments();
-
-        if (matchCount === 0) {
-            // Match collection is empty or doesn't exist
-            // Create a new document with initial empty values
-            const newMatch = new Match({
-                testData: { },
-                count: 0
-            });
-            
-            await newMatch.save();
-        }
-
-        const mentor = await Mentor.create({ "userId": newUser._id, experties, skills, qualification, about, udemy, linkedin, youtube, other, ...matchtest });
-        
-        await mentor.save();
-    
-        let doc = await Match.findOne();
-
-        // Increment the number field
-        doc.count = doc.count + 1;
-        console.log(doc.count);
-        let matchdata: String[] = [];
+        let matchdata: any = [];
         for(const param in matchtest) {
             for(const value in matchtest[param]) {
                 if(matchtest[param][value] === true){
@@ -80,11 +57,11 @@ export async function POST(request : NextRequest){
             }
         }
         matchdata.push(other);
-        // Append the new data array to the existing nested array
-        doc.testData.data.push(matchdata);
-        console.log("Doc.save.data hai yehh  :  ",doc.testData.data);
-        await doc.save();   
+
+        const mentor = await Mentor.create({ userId,testData: matchdata, experties, skills, qualification, about, udemy, linkedin, youtube, other, ...matchtest });
         
+        await mentor.save();        
+        console.log(mentor);
         return NextResponse.json({
             status: 200,
             message: "Mentor Created."

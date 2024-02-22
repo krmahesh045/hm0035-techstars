@@ -6,7 +6,9 @@ const mentorSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User' 
     },
-    
+    testData : {
+        type: Array
+    },
     experties: {
         type: String
     },

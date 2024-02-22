@@ -2,7 +2,6 @@
 
 import connectMongoDB from '@/libs/mongodb';
 import Student from '@/models/student';
-import Match from '@/models/match';
 import { NextRequest, NextResponse } from 'next/server';
 import { getDataFromToken } from '@/helpers/getDataFromToken';
 
