@@ -1,8 +1,10 @@
+'use client'
+
 import React from 'react'
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import Card from './card'
 import Link from 'next/link'
-import MentorDetail from './mentor/mentorDetail';
+import axios from 'axios'
 
 
 type Props = {}
@@ -94,6 +96,17 @@ const DashboardPage = (props: Props) => {
 
   ];
 
+  // Logout function
+  async function handleLogout() {
+    const response =  await axios.get('/api/logout');
+    if(response.status !== 200) {
+      console.error("Error logging out:", response);
+    }
+    else {
+      console.log("Logged out successfully");
+    }
+  }
+
 
 
 
@@ -113,7 +126,7 @@ const DashboardPage = (props: Props) => {
 
         <div className='flex gap-8 ml-auto'>
           {/* Filter icon */}
-          <button className='flex gap-4'>
+          <button className='flex gap-4' onClick={handleLogout}>
             <svg width="36" height="36" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
               <path fill="currentColor" d="m8.398 14.605l1.323 1.143c.29.251.323.691.075.984a.688.688 0 0 1-.976.075l-1.565-1.352a.7.7 0 0 1-.242-.53V7.938L1.171 1.155C.78.703 1.1 0 1.694 0h16.612c.594 0 .912.704.523 1.155l-5.85 6.784v11.363c0 .386-.31.698-.692.698a.695.695 0 0 1-.692-.698V7.678a.7.7 0 0 1 .17-.458l5.023-5.825H3.21L8.228 7.22a.7.7 0 0 1 .17.458z" />
             </svg>
