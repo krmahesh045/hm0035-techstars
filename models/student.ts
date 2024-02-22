@@ -9,6 +9,23 @@ const studentSchema = new mongoose.Schema({
     testData : {
         type: Array
     },
+    
+    skills: {
+        type: Array
+    },
+    qualification: {
+        type: String
+    },
+    about: {
+        type: String
+    },
+    github: {
+        type: String
+    },
+    linkedin: {
+        type: String
+    },
+
     learningStyle: {
         visual: { type: Boolean },
         auditory: { type: Boolean },
@@ -64,6 +81,7 @@ const studentSchema = new mongoose.Schema({
         industryExpert: { type: Boolean },
         doubtSolver: { type: Boolean }
     }
+
 });
 
 const Student = mongoose.models.Student || mongoose.model('Student', studentSchema)

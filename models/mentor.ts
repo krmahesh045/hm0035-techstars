@@ -6,6 +6,29 @@ const mentorSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User' 
     },
+    
+    expertise: {
+        type: Array
+    },
+    skills: {
+        type: Array
+    },
+    qualification: {
+        type: String
+    },
+    about: {
+        type: String
+    },
+    udemy: {
+        type: String
+    },
+    linkedin: {
+        type: String
+    },
+    youtube: {
+        type: String
+    },
+
     teachstyle: {
         visual: { type: Boolean },
         auditory: { type: Boolean },
