@@ -6,6 +6,7 @@ import React from 'react';
 import Image from 'next/image';
 import { FC, useEffect, useState } from "react";
 import axios from 'axios';
+import Link from 'next/link';
 
 
 interface MentorProfileProps {
@@ -16,9 +17,11 @@ interface MentorProfileProps {
 
 type feedback = {
   name: string;
-  feedback: string;
+  mentorId: string;
+  studentId: string;
+  message: string;
+  starsRating: number;
   date: Date;
-  stars: number;
 }
 
 export interface MentorData {
@@ -73,6 +76,50 @@ const MentorDetailPage: FC<MentorProfileProps> = ({ params }) => {
     }
   } as MentorData)
 
+
+  // feedbck function
+
+  // dummy feedbacks
+
+  const dummyFeedback: feedback[] = [
+    {
+      name: 'John Doe',
+      mentorId: '1',
+      studentId: '1',
+      message: 'I am very happy with the mentorship',
+      starsRating: 5,
+      date: new Date()
+    },
+  ]
+
+  const [feedback, setFeedback] = useState<feedback>(
+    {
+      name: '',
+      mentorId: '',
+      studentId: '',
+      message: '',
+      starsRating: 0,
+      date: new Date()
+    }
+  );
+ 
+  const handlefeedback = () => {
+    const data = {
+      mentorId: mentorId,
+      studentId: '',
+      message: feedback.message,
+      starRating: feedback.starsRating,
+    }
+    axios.post('/api/feedback/', data)
+      .then((response) => {
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
+  };
+
   const fetchProfile = async () => {
     // fetch mentor data
     const data = {
@@ -87,24 +134,8 @@ const MentorDetailPage: FC<MentorProfileProps> = ({ params }) => {
 
   useEffect(() => {
     fetchProfile();
-  }, []);
-
-  const [feedback, setFeedback] = React.useState<feedback[]>([]);
-
-  const dummyFeedback: feedback[] = [
-    {
-      name: 'John Doe',
-      feedback: 'Excellent mentor!',
-      date: new Date(),
-      stars: 5,
-    },
-    {
-      name: 'Jane Doe',
-      feedback: 'Very knowledgeable.',
-      date: new Date(),
-      stars: 4,
-    },
-  ];
+  },[]);
+ 
 
   return (
     <div className="h-screen w-screen bg-white flex flex-col">
@@ -131,7 +162,7 @@ const MentorDetailPage: FC<MentorProfileProps> = ({ params }) => {
 
       </div>
 
-      <div className='w-full flex mt-28'>
+      <div className='w-full flex mt-28 pr-16'>
 
         {/* Skills */}
         <div className='w-1/4 h-[50vh] bg-white p-10 flex flex-col gap-4 border-r-2 border-black mr-10 '>
@@ -177,8 +208,9 @@ const MentorDetailPage: FC<MentorProfileProps> = ({ params }) => {
             <h1 className='text-3xl font-semibold mt-10 mb-7'>Links</h1>
             <div className='flex gap-4 p-2'>
               {/* <iframe src="https://www.youtube.com/" width="300" height="200" className='rounded-xl' /> */}
-              <iframe src={mentorData.mentor.linkedin} width="250" height="70" className='rounded-xl' />
-              <iframe src={mentorData.mentor.youtube} width="250" height="70" className='rounded-xl' />
+              <Link href={mentorData.mentor.youtube} className="w-[250px] h-[70px] rounded-xl border-2 border-red-500 text-2xl font-bold flex justify-center items-center ">Youtube</Link>
+              <Link href={mentorData.mentor.udemy} className="w-[250px] h-[70px] rounded-xl border-2 border-purple-500 text-2xl font-bold flex justify-center items-center ">Udemy</Link>
+              <Link href={mentorData.mentor.linkedin} className="w-[250px] h-[70px] rounded-xl border-2 border-blue-500 text-2xl font-bold flex justify-center items-center ">Linkedin</Link>
             </div>
           </div>
 
@@ -188,11 +220,15 @@ const MentorDetailPage: FC<MentorProfileProps> = ({ params }) => {
                 type="text"
                 placeholder='Type  your feedback here'
                 className='p-2 w-[1250px] outline-none'
-
+                value={feedback.message}
+                onClick={(e) => setFeedback({ ...feedback, message: e.target.value })}
+                
               />
               {/* submit button */}
-              <button className='bg-violet-500 text-white p-3 rounded-full w-30 flex justify-center items-center'>
-                Submit it -&gt;
+              <button className='bg-violet-500 text-white py-2 px-4 rounded-full w-30 flex justify-center items-center'
+                onClick={handlefeedback}
+              >
+                Submit
               </button>
             </div>
             <div className='flex flex-col gap-2 p-2 mt-4'>
@@ -204,10 +240,10 @@ const MentorDetailPage: FC<MentorProfileProps> = ({ params }) => {
                     <h1 className='text-lg font-semibold'>{feedback.name}</h1>
                     <h1 className='text-lg font-semibold'>{feedback.date.toDateString()}</h1>
                   </div>
-                  <p className='text-lg'>{feedback.feedback}</p>
+                  <p className='text-lg'>{feedback.message}</p>
                   <div className='flex justify-end'>
                     {/* map stars */}
-                    {[...Array(feedback.stars)].map((_, index) => (
+                    {[...Array(feedback.starsRating)].map((_, index) => (
                       <span key={index} className='text-3xl flex'>
                         <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24">
                           <path fill="currentColor" d="M17.562 21.56a1.003 1.003 0 0 1-.465-.115L12 18.765l-5.097 2.68a1 1 0 0 1-1.451-1.054l.973-5.676l-4.123-4.02a1 1 0 0 1 .554-1.705l5.699-.828l2.548-5.164a1.042 1.042 0 0 1 1.794 0l2.548 5.164l5.699.828a1 1 0 0 1 .554 1.706l-4.123 4.019l.973 5.676a1 1 0 0 1-.986 1.169Z" />

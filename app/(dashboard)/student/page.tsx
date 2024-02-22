@@ -131,7 +131,9 @@ const DashboardPage = (props: Props) => {
       </div>
 
       <div className='p-5 w-full h-auto flex gap-20'>
-        <h1 className='font-bold text-3xl'>Mentors <span className='text-violet-500'>10</span></h1>
+        <h1 className='font-bold text-3xl'>Mentors <span className='text-violet-500'>
+          {mentordata.length}  
+        </span></h1>
       </div>
       <div className='w-full h-auto '>
 
