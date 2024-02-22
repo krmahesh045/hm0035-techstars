@@ -6,6 +6,8 @@ import Card from './card'
 import Link from 'next/link'
 import axios from 'axios'
 import { useRouter } from 'next/navigation'
+import { useEffect, useState } from "react"
+
 
 
 type Props = {}
@@ -20,7 +22,8 @@ interface MentorData {
 
 const DashboardPage = (props: Props) => {
 
-  
+  const [mentorData, setMentorData] = useState<MentorData[]>([]);
+  const [student,setStudent] = useState('');
   // Mentor dummy Data for testing
 
   const MentorData = [
@@ -96,7 +99,7 @@ const DashboardPage = (props: Props) => {
     },
 
   ];
-
+  
   const router = useRouter();
 
   // Logout function
@@ -115,7 +118,6 @@ const DashboardPage = (props: Props) => {
 
 
 
-
   return (
     <div className='h-screen w-screen bg-white p-5 flex flex-col overflow-x-hidden'>
       {/* navbar */}
@@ -127,6 +129,7 @@ const DashboardPage = (props: Props) => {
           </Avatar>
           <h1 className='text-xl'>
             Swapnil Kapale
+
           </h1>
         </div>
 
@@ -173,9 +176,9 @@ const DashboardPage = (props: Props) => {
 
         {/* displaying mentor cards */}
         <div className=' flex flex-wrap w-auto h-auto '>
-          {MentorData.map((mentorData, index) => (
-            <Card key={index} mentorData={mentorData} />
-          ))}
+        {mentorData.map((mentor : any, index : any) => (
+          <Card key={index} mentorData={mentor} />
+        ))}
         </div>
 
 
