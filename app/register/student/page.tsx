@@ -158,7 +158,7 @@ const StudentRegisterPage = () => {
 
   const handleRegister = async () => {
     console.log(form);
-    toast.success('Successfully toasted!')
+    
       try {
 
         // Make a POST request to your API route
@@ -167,14 +167,14 @@ const StudentRegisterPage = () => {
         if (response.data.message === 'Student Created.' || response.data.message === 'Mentor Created.') {
           // Handle success, e.g., show a success message
           console.log(response.data.message); 
-          toast.success('Successfully toasted!')
         } else {
           // Handle error, e.g., show an error message
           console.error('Registration failed');
-          toast.error("This didn't work.")
+          toast.error("Registration failed")
         }
-      } catch (error) {
+      } catch (error: any) {
         console.error(error);
+        toast.error("Registration failed")
       }
   }
 
