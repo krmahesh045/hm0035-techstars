@@ -13,6 +13,14 @@ interface TeacherRegisterForm {
   phone: string;
   address: string;
   role: string;
+  experties : string;
+  skills: string[];
+  qualification: string;
+  about: string;
+  udemy: string;
+  linkedin: string;
+  youtube: string;
+
   matchtest: {
     teachstyle: {
       visual: boolean;
@@ -81,6 +89,14 @@ const TeacherRegisterPage = () => {
     phone: "",
     address: "",
     role: "mentor",
+    experties: "",
+    skills: [],
+    qualification: "",
+    about: "",
+    udemy: "",
+    linkedin: "",
+    youtube: "",
+    
     matchtest: {
       teachstyle: {
         visual: false,
@@ -179,7 +195,7 @@ const TeacherRegisterPage = () => {
       <div className="flex  w-screen ml-1/3 mt-[100px]">
 
       {/* form 1 */}
-        <div className="h-[90vh]  border-2   border-zinc-400 p-5 w-[424px] rounded-xl   ">
+        <div className="h-auto bg-gray-800 text-white  border-2   border-zinc-400 p-5 w-[424px] rounded-xl   ">
           <h1 className="text-3xl  font-bold mb-10"> Personal Information</h1>
 
           <div className="flex flex-col gap-3 ">
@@ -245,6 +261,78 @@ const TeacherRegisterPage = () => {
                 setForm({ ...form, address: e.target.value });
               }}
             />
+            <label htmlFor="experties">experties</label>
+            <input
+              type="text"
+              placeholder="experties"
+              className="p-2 bg-transparent rounded-md border-2 border-zinc-500 w-96 mb-2"
+              value={form.experties}
+              onChange={(e) => {
+                setForm({ ...form, experties: e.target.value });
+              }}
+            />
+            <label htmlFor="Skills">Skills</label>
+            <input
+              type="text"
+              placeholder="Skills"
+              className="p-2 bg-transparent rounded-md border-2 border-zinc-500 w-96 mb-2"
+              value={form.skills.join(",")}
+              onChange={(e) => {
+                setForm({ ...form, skills: e.target.value.split(",") });
+              }}
+            />
+            <label htmlFor="Qualification">Qualification</label>
+            <input
+              type="text"
+              placeholder="Qualification"
+              className="p-2 bg-transparent rounded-md border-2 border-zinc-500 w-96 mb-2"
+              value={form.qualification}
+              onChange={(e) => {
+                setForm({ ...form, qualification: e.target.value });
+              }}
+            />
+            <label htmlFor="About">About</label>
+            <textarea
+              placeholder="About"
+              className="p-2 bg-transparent rounded-md border-2 border-zinc-500 w-96 mb-2"
+              value={form.about}
+              onChange={(e) => {
+                setForm({ ...form, about: e.target.value });
+              }}
+            />
+            <label htmlFor="Udemy">Udemy</label>
+            <input
+              type="text"
+              placeholder="Udemy"
+              className="p-2 bg-transparent rounded-md border-2 border-zinc-500 w-96 mb-2"
+              value={form.udemy}
+              onChange={(e) => {
+                setForm({ ...form, udemy: e.target.value });
+              }}
+            />
+            <label htmlFor="Linkedin">Linkedin</label>
+            <input
+              type="text"
+              placeholder="Linkedin"
+              className="p-2 bg-transparent rounded-md border-2 border-zinc-500 w-96 mb-2"
+              value={form.linkedin}
+              onChange={(e) => {
+                setForm({ ...form, linkedin: e.target.value });
+              }}
+            />
+            <label htmlFor="Youtube">Youtube</label>
+            <input
+              type="text"
+              placeholder="Youtube"
+              className="p-2 bg-transparent rounded-md border-2 border-zinc-500 w-96 mb-2"
+              value={form.youtube}
+              onChange={(e) => {
+                setForm({ ...form, youtube: e.target.value });
+              }}
+            />
+
+
+
           </div>
         </div>
 

@@ -4,6 +4,8 @@ import React from "react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import axios from "axios";
+import { toast } from "react-hot-toast";
+import { Toaster } from "react-hot-toast";
 
 interface StudentRegisterForm {
   name: string;
@@ -13,6 +15,11 @@ interface StudentRegisterForm {
   phone: string;
   address: string;
   role: string;
+  skills: string[];
+  qualification: string;
+  about: string;
+  github: string;
+  linkedin: string;
   matchtest: {
     learningStyle:{
       visual: boolean
@@ -82,6 +89,11 @@ const StudentRegisterPage = () => {
     phone: "",
     address: "",
     role: "student",
+    skills: [],
+    qualification: "",
+    about: "",
+    github: "",
+    linkedin: "",
     matchtest: {
       learningStyle:{
         visual: false,
@@ -143,16 +155,20 @@ const StudentRegisterPage = () => {
 
   const handleRegister = async () => {
     console.log(form);
+    toast.success('Successfully toasted!')
       try {
+
         // Make a POST request to your API route
         const response = await axios.post('/api/register', form);
         console.log("Response data is: " , response.data);
         if (response.data.message === 'Student Created.' || response.data.message === 'Mentor Created.') {
           // Handle success, e.g., show a success message
-          console.log(response.data.message);
+          console.log(response.data.message); 
+          toast.success('Successfully toasted!')
         } else {
           // Handle error, e.g., show an error message
           console.error('Registration failed');
+          toast.error("This didn't work.")
         }
       } catch (error) {
         console.error(error);
@@ -161,6 +177,11 @@ const StudentRegisterPage = () => {
 
   return (
     <div className="h-screen w-screen p-5   ">
+
+      <Toaster
+        position="top-center"
+        reverseOrder={false}
+      />
       
       {/* topbar */}
       <div className="h-[10vh] w-screen flex bg-white gap-5 items-center fixed">
@@ -245,6 +266,56 @@ const StudentRegisterPage = () => {
               value={form.address}
               onChange={(e) => {
                 setForm({ ...form, address: e.target.value });
+              }}
+            />
+            <label htmlFor="skills">skills</label>
+            <input
+              type="text"
+              placeholder="skills"
+              className="p-2 bg-transparent rounded-md border-2 border-zinc-500 w-96 mb-2"
+              value={form.skills}
+              onChange={(e) => {
+                setForm({ ...form, skills: e.target.value.split(",") });
+              }}
+            />
+            <label htmlFor="qualification">Qualification</label>
+            <input
+              type="text"
+              placeholder="Qualification"
+              className="p-2 bg-transparent rounded-md border-2 border-zinc-500 w-96 mb-2"
+              value={form.qualification}
+              onChange={(e) => {
+                setForm({ ...form, qualification: e.target.value });
+              }}
+            />
+            <label htmlFor="about">About</label>
+            <input
+              type="text"
+              placeholder="About"
+              className="p-2 bg-transparent rounded-md border-2 border-zinc-500 w-96 mb-2"
+              value={form.about}
+              onChange={(e) => {
+                setForm({ ...form, about: e.target.value });
+              }}
+            />
+             <label htmlFor="github">Github</label>
+            <input
+              type="text"
+              placeholder="Github"
+              className="p-2 bg-transparent rounded-md border-2 border-zinc-500 w-96 mb-2"
+              value={form.github}
+              onChange={(e) => {
+                setForm({ ...form, github: e.target.value });
+              }}
+            />
+            <label htmlFor="linkedin">Linkedin</label>
+            <input
+              type="text"
+              placeholder="Linkedin"
+              className="p-2 bg-transparent rounded-md border-2 border-zinc-500 w-96 mb-2"
+              value={form.linkedin}
+              onChange={(e) => {
+                setForm({ ...form, linkedin: e.target.value });
               }}
             />
           </div>
@@ -970,7 +1041,7 @@ const StudentRegisterPage = () => {
               </span>
 
               <Button className=" text-white w-72 mt-10 ml-40 p-2 rounded-md" onClick={handleRegister}>
-                 <Link href="/register/success">Register</Link>
+                Register
               </Button>
             </div>
           </div>

@@ -3,26 +3,28 @@ import Image from 'next/image';
 
 interface CardProps {
   mentorData: {
-    name: string;
-    image: string;
-    role: string;
-    phone: string;
-    email: string;
+   id : string;
+   name : string;
+   role : string;
+   phone : string;
+   email : string;
   };
 }
 
 const Card: React.FC<CardProps> = ({ mentorData }) => {
   
-  const { name, image, role, phone, email } = mentorData;
+  const {id, name, role, phone, email} = mentorData;
 
   return (
-    <a href="student/mentorProfile">
+    <a href={`student/${id}`}>
       <div className='w-1/4 p-4 justify-center items-center'>
         <div className="h-96 w-80 bg-[#f7f7fb] p-10 rounded-xl shadow-lg flex flex-col justify-space-around items-center gap-4 border-2 border-zinc-300">
+          
+          <span className='text-black'>{id}</span>
           {/* Mentor dp */}
           <div className="rounded-full h-[120px] object-cover border-2 border-zinc-300">
             <Image
-              src={`/profile/${image}`}
+              src={'/avtar.jpg'}
               alt="mentorship"
               width={120}
               height={120}

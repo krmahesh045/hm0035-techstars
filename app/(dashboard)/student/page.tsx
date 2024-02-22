@@ -8,16 +8,21 @@ import axios from 'axios'
 import { useRouter } from 'next/navigation'
 import { useEffect } from 'react'
 import { useState } from 'react'
+import { set } from 'mongoose'
 
 
 type Props = {}
 
 interface MentorData {
-  name: string,
-  image: string,
-  role: string,
-  phone: string,
-  email: string,
+  roles: string[];
+  user: {
+    _id: string;
+    name: string;
+    image: string;
+    mobile: string;
+    email: string;
+  }
+
 } 
 
 const DashboardPage = (props: Props) => {
@@ -25,81 +30,82 @@ const DashboardPage = (props: Props) => {
   // veiables
 
   const[user, setUser] = useState("user"); // user data
+  const[mentordata, setMentorData] = useState([]); // mentor data
 
   // Mentor dummy Data for testing
-  const MentorData = [
-    {
-      name: "Rachel Smith",
-      image: "pic1.jpg",
-      role: "Web Developer",
-      phone: "1234567890",
-      email: "Click this card to see more details about this mentor.",
-    },
-    {
-      name: "Jenny Doe",
-      image: "pic2.jpg",
-      role: "Frontend Developer",
-      phone: "1234567890",
-      email: "sk@gmail.ds",
-    },
-    {
-      name: "Daniel White",
-      image: "pic3.webp",
-      role: "Cybersecurity Analyst",
-      phone: "1234567890",
-      email: "daniel.white@example.com",
-    },
-    {
-      name: "Mahesh Kakde",
-      image: "pic4.jpg",
-      role: "Full Stack Developer",
-      phone: "1234567890",
-      email: "mahif@gmail.as",
-    },
-    {
-      name: "John Doe",
-      image: "pic5.avif",
-      role: "UI/UX Designer",
-      phone: "1234567890",
-      email: "john.doe@example.com",
-    },
-    {
-      name: "Jane Smith",
-      image: "pic6.jpg",
-      role: "Backend Developer",
-      phone: "1234567890",
-      email: "jane.smith@example.com",
-    },
-    {
-      name: "Alex Johnson",
-      image: "pic7.avif",
-      role: "Data Scientist",
-      phone: "1234567890",
-      email: "alex.johnson@example.com",
-    },
-    {
-      name: "Emily Davis",
-      image: "pic8.avif",
-      role: "Mobile App Developer",
-      phone: "1234567890",
-      email: "emily.davis@example.com",
-    },
-    {
-      name: "Chris Miller",
-      image: "pic9.avif",
-      role: "DevOps Engineer",
-      phone: "1234567890",
-      email: "chris.miller@example.com",
-    },
-    {
-      name: "Sophia Wilson",
-      image: "pic10.jpg",
-      role: "Machine Learning Engineer",
-      phone: "1234567890",
-      email: "sophia.wilson@example.com",
-    },
+  // const MentorData = [
+  //   {
+  //     name: "Rachel Smith",
+  //     image: "pic1.jpg",
+  //     role: "Web Developer",
+  //     phone: "1234567890",
+  //     email: "Click this card to see more details about this mentor.",
+  //   },
+  //   {
+  //     name: "Jenny Doe",
+  //     image: "pic2.jpg",
+  //     role: "Frontend Developer",
+  //     phone: "1234567890",
+  //     email: "sk@gmail.ds",
+  //   },
+  //   {
+  //     name: "Daniel White",
+  //     image: "pic3.webp",
+  //     role: "Cybersecurity Analyst",
+  //     phone: "1234567890",
+  //     email: "daniel.white@example.com",
+  //   },
+  //   {
+  //     name: "Mahesh Kakde",
+  //     image: "pic4.jpg",
+  //     role: "Full Stack Developer",
+  //     phone: "1234567890",
+  //     email: "mahif@gmail.as",
+  //   },
+  //   {
+  //     name: "John Doe",
+  //     image: "pic5.avif",
+  //     role: "UI/UX Designer",
+  //     phone: "1234567890",
+  //     email: "john.doe@example.com",
+  //   },
+  //   {
+  //     name: "Jane Smith",
+  //     image: "pic6.jpg",
+  //     role: "Backend Developer",
+  //     phone: "1234567890",
+  //     email: "jane.smith@example.com",
+  //   },
+  //   {
+  //     name: "Alex Johnson",
+  //     image: "pic7.avif",
+  //     role: "Data Scientist",
+  //     phone: "1234567890",
+  //     email: "alex.johnson@example.com",
+  //   },
+  //   {
+  //     name: "Emily Davis",
+  //     image: "pic8.avif",
+  //     role: "Mobile App Developer",
+  //     phone: "1234567890",
+  //     email: "emily.davis@example.com",
+  //   },
+  //   {
+  //     name: "Chris Miller",
+  //     image: "pic9.avif",
+  //     role: "DevOps Engineer",
+  //     phone: "1234567890",
+  //     email: "chris.miller@example.com",
+  //   },
+  //   {
+  //     name: "Sophia Wilson",
+  //     image: "pic10.jpg",
+  //     role: "Machine Learning Engineer",
+  //     phone: "1234567890",
+  //     email: "sophia.wilson@example.com",
+  //   },
 
-  ];
+  // ];
 
   const router = useRouter();
 
@@ -128,18 +134,20 @@ const DashboardPage = (props: Props) => {
   }
   
   const fetchMentorData = async () => {
-    const response = await axios.get('/api/mentors');
+    const response = await axios.get('/api/allMentors');
     if(response.status !== 200) {
       console.error("Error fetching mentor data:", response);
     }
     else {
-      console.log("Mentor Data:", response.data.data);
+      console.log("Mentor Data:", response.data.mentorData);
+      setMentorData(response.data.mentorData);
     }
   }
 
   // fetch data of logged in data
   useEffect(() => {
       fetchData();
+      fetchMentorData();
   } ,[])
 
 
@@ -198,15 +206,26 @@ const DashboardPage = (props: Props) => {
       </div>
 
       <div className='p-5 w-full h-auto flex gap-20'>
-        <h1 className='font-bold text-3xl'>Mentors <span className='text-violet-500'>{MentorData.length}</span></h1>
+        <h1 className='font-bold text-3xl'>Mentors <span className='text-violet-500'>10</span></h1>
       </div>
       <div className='w-full h-auto '>
 
         {/* displaying mentor cards */}
         <div className=' flex flex-wrap w-auto h-auto '>
-          {MentorData.map((mentorData, index) => (
-            <Card key={index} mentorData={mentorData} />
-          ))}
+          {mentordata.map((mentor: MentorData, index) => {
+            return (
+              <Card 
+                mentorData={{
+                  id: mentor.user._id,
+                  name: mentor.user.name,
+                  role: mentor.roles[0],
+                  phone: mentor.user.mobile,
+                  email: mentor.user.email,
+                }}
+                key={index}
+              />
+            )
+          })}
         </div>
 
       </div>

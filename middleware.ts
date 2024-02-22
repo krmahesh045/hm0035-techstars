@@ -26,7 +26,6 @@ export const config = {
   matcher: [
 
     '/signin',
-    '/register',
     '/student',
     '/mentor'
   ],
