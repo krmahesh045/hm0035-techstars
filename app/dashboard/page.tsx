@@ -1,8 +1,10 @@
-import React from 'react'
+import React, { useEffect , useState} from 'react'
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import Card from './card'
 import Link from 'next/link'
-import MentorDetail from './mentor/mentorDetail';
+import { NextResponse } from 'next/server'
+import axios from 'axios'
+// import MentorDetail from './mentor/mentorDetail';
 
 
 type Props = {}
@@ -17,7 +19,8 @@ interface MentorData {
 
 const DashboardPage = (props: Props) => {
 
-  
+  const [mentorData, setMentorData] = useState<MentorData[]>([]);
+  const [student,setStudent] = useState('');
   // Mentor dummy Data for testing
 
   const MentorData = [
@@ -94,7 +97,21 @@ const DashboardPage = (props: Props) => {
 
   ];
 
+  useEffect(() => {
+    const fetchMentors = async () => {
+      try {
+        const response = await axios.get('/api/allMentors');
+        const fetchedMentors = response.data.mentors;
+        setMentorData(fetchedMentors);
 
+        const res = await axios.get('/api/AllMentors');
+      } catch (error) {
+        console.error('Error fetching mentors:', error);
+      }
+    };
+
+    fetchMentors();
+  }, []);
 
 
   return (
@@ -108,6 +125,7 @@ const DashboardPage = (props: Props) => {
           </Avatar>
           <h1 className='text-xl'>
             Swapnil Kapale
+
           </h1>
         </div>
 
@@ -152,9 +170,9 @@ const DashboardPage = (props: Props) => {
 
         {/* displaying mentor cards */}
         <div className=' flex flex-wrap w-auto h-auto '>
-          {MentorData.map((mentorData, index) => (
-            <Card key={index} mentorData={mentorData} />
-          ))}
+        {mentorData.map((mentor : any, index : any) => (
+          <Card key={index} mentorData={mentor} />
+        ))}
         </div>
 
 
