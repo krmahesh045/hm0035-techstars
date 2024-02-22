@@ -17,7 +17,8 @@ function SignInPage({}: Props) {
   
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  // const [error, setError] = useState("This is beta phase use admin as usename and password");
+
+  const [error, setError] = useState("");
   const router = useRouter();
   
 
@@ -27,8 +28,9 @@ function SignInPage({}: Props) {
     console.log({email, password}); 
     
     try{
-      const response = await axios.post('/api/login',{email,password});
+      const response = await axios.post('/api/signin',{email,password});
       if(response.status !== 200) {
+        setError("Error logging in. Please try again.");
         return NextResponse.json({ error: "Please enter email and password" });
       }
       else {
@@ -37,7 +39,8 @@ function SignInPage({}: Props) {
       } 
 
     }catch(error){
-      console.log(error);
+      console.error("Error logging in", error);
+      setError("Error logging in. Please try again.");
     }
   }
 
@@ -93,7 +96,7 @@ function SignInPage({}: Props) {
                   onChange={(e) => setPassword(e.target.value)}
                 />
       
-                {/* <h3 className="text-red-500">{error}</h3> */}
+                <h3 className="text-red-500">{error}</h3> 
 
                 <Button 
                   className="w-96 mt-4"

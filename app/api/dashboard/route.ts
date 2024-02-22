@@ -1,51 +1,43 @@
-// Import the necessary modules
-import connectMongoDB from "@/libs/mongodb";
-import { NextRequest, NextResponse } from "next/server";
-import User from "@/models/user";
-import Student from "@/models/student";
-import Mentor from "@/models/mentor";
+// pages/api/match/route.js
 
-// Define the POST handler function for the dashboard
-export async function POST(request : NextRequest) {
-    try {
-        // Connect to MongoDB
-        await connectMongoDB();
-        // Assume the request contains information about the logged-in user
-        const { userId } = await request.json();
+import connectMongoDB from '@/libs/mongodb';
+import Student from '@/models/student';
+import Mentor from '@/models/mentor';
+import User from '@/models/user';
+import { NextRequest, NextResponse } from 'next/server';
+import { getDataFromToken } from '@/helpers/getDataFromToken';
 
-        // Fetch the logged-in user
-        const user = await User.findById(userId);
-        console.log("User: ",user);
-        if (!user){
-            return NextResponse.json({
-                message: "User not found.",
-                status: 404
-            });
-        }
+export async function GET(request: NextRequest) {
 
-        // Fetch the corresponding student or mentor based on the user's role
-        let userDetails;
-        if (user.role === "student") {
-            userDetails = await Student.findOne({ userId });
-            console.log("Students detail: ",userDetails);
-        } else if (user.role === "mentor") {
-            userDetails = await Mentor.findOne({ userId });
-            console.log("Mentors detail: ",userDetails);
-        }
+  await connectMongoDB();
 
-        // Return the user details along with the student or mentor details
-        return NextResponse.json({
-            message: "Dashboard data fetched successfully.",
-            status: 200,
-            user,
-            userDetails
-        });
-    } catch (error) {
-        // Handle errors
-        console.error("Error:", error);
-        return NextResponse.json({
-            message: "Internal Server Error",
-            status: 500
+  try {
+    const userId = getDataFromToken(request);
+    
+    const user = await User.findOne({ _id: userId }).select('-password');
+    const role = user.role;
+    if(role === 'student'){
+        const student = await Student.findOne({userId: userId});
+        return  NextResponse.json({
+          message : "Success",
+          personalDetails: user,
+          matchtest: student
         });
     }
+    else if(role === 'mentor'){
+        const mentor = await Mentor.findOne({userId: userId});
+        return NextResponse.json({
+            message: "Success",
+            personalDetails: user,
+            matchtest: mentor
+        })
+    }
+    return  NextResponse.json({
+      message : "Success",
+    });
+
+  } catch (error) {
+    console.error(error);
+    NextResponse.json({ error: 'Internal Server Error' });
+  }
 }

@@ -1,11 +1,6 @@
-<<<<<<< HEAD
 /* eslint-disable react/no-unescaped-entities */
 'use client'
-=======
-/* eslint-disable*/
 
->>>>>>> 003ebd0f71655caeba2077c2377e13566aab3fb9
-// MentorDetailPage.tsx
 
 import React from 'react';
 

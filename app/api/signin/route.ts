@@ -38,11 +38,17 @@ export async function POST(request: NextRequest) {
         // Create a token with an expiration of 1 hour
         const token = jwt.sign(tokenData, process.env.SECRET_KEY!, { expiresIn: '1h' });
         // Return success response with token
-        return NextResponse.json({
+        const response =  NextResponse.json({
             status : 200,
             message: "Successfully logged in.",
             token
         });
+
+        response.cookies.set("token", token, {
+            httpOnly: true
+        });
+
+        return response;
     } catch (error) {
         // Log the error and return an error response
         console.error("Error logging in:", error);
