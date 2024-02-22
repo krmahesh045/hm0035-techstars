@@ -1,12 +1,3 @@
-<<<<<<< HEAD
-import React, { useEffect , useState} from 'react'
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import Card from './card'
-import Link from 'next/link'
-import { NextResponse } from 'next/server'
-import axios from 'axios'
-// import MentorDetail from './mentor/mentorDetail';
-=======
 'use client'
 
 import React from 'react'
@@ -15,7 +6,8 @@ import Card from './card'
 import Link from 'next/link'
 import axios from 'axios'
 import { useRouter } from 'next/navigation'
->>>>>>> f70b3378837663ce5334bdf42fb5b8b77ce120b2
+import { useEffect, useState } from "react"
+
 
 
 type Props = {}
@@ -107,15 +99,7 @@ const DashboardPage = (props: Props) => {
     },
 
   ];
-
-<<<<<<< HEAD
-  useEffect(() => {
-    const fetchMentors = async () => {
-      try {
-        const response = await axios.get('/api/allMentors');
-        const fetchedMentors = response.data.mentors;
-        setMentorData(fetchedMentors);
-=======
+  
   const router = useRouter();
 
   // Logout function
@@ -132,16 +116,6 @@ const DashboardPage = (props: Props) => {
     }
   }
 
->>>>>>> f70b3378837663ce5334bdf42fb5b8b77ce120b2
-
-        const res = await axios.get('/api/AllMentors');
-      } catch (error) {
-        console.error('Error fetching mentors:', error);
-      }
-    };
-
-    fetchMentors();
-  }, []);
 
 
   return (
