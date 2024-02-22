@@ -11,20 +11,25 @@ connectMongoDB();
 export async function GET(request: NextRequest) {
     try {
         // Fetch all mentors from the MongoDB collection
-        let mentors = await Mentor.find().select('userId');
+        let mentors = await Mentor.find().select('userId subject');
         let mentorData = [];
         for (let mentor of mentors) {
             try {
                 const user = await User.findOne({ _id: mentor.userId }).select('_id name mobile email');
+                console.log(mentor);
                 const roles = [];
-                for (const key in mentor.subject) {
-                    if (mentor.subject[key]) {
-                        roles.push(key);
-                    }
+                if (mentor.subject["webdev"]) {
+                    roles.push("webdev");
+                }else if (mentor.subject["appdev"]) {
+                    roles.push("appdev");
+                }else if (mentor.subject["aiml"]) {
+                    roles.push("aiml");
                 }
+                    
                 mentorData.push({ user, roles });
             } catch (error) {
                 console.error('Error updating mentor:', error);
+                
             }
         }
 
