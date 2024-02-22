@@ -7,8 +7,8 @@ const mentorSchema = new mongoose.Schema({
         ref: 'User' 
     },
     
-    expertise: {
-        type: Array
+    experties: {
+        type: String
     },
     skills: {
         type: Array
@@ -28,7 +28,9 @@ const mentorSchema = new mongoose.Schema({
     youtube: {
         type: String
     },
-
+    other: {
+        type: String
+    },
     teachstyle: {
         visual: { type: Boolean },
         auditory: { type: Boolean },

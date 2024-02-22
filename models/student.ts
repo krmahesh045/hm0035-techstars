@@ -25,6 +25,9 @@ const studentSchema = new mongoose.Schema({
     linkedin: {
         type: String
     },
+    other: {
+        type: String
+    },
 
     learningStyle: {
         visual: { type: Boolean },
