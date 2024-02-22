@@ -8,13 +8,12 @@ import axios from 'axios'
 import { useRouter } from 'next/navigation'
 import { useEffect } from 'react'
 import { useState } from 'react'
-import { set } from 'mongoose'
 
 
 type Props = {}
 
 interface MentorData {
-  roles: string[];
+  roles: string;
   user: {
     _id: string;
     name: string;
@@ -31,81 +30,6 @@ const DashboardPage = (props: Props) => {
 
   const[user, setUser] = useState("user"); // user data
   const[mentordata, setMentorData] = useState([]); // mentor data
-
-  // Mentor dummy Data for testing
-  // const MentorData = [
-  //   {
-  //     name: "Rachel Smith",
-  //     image: "pic1.jpg",
-  //     role: "Web Developer",
-  //     phone: "1234567890",
-  //     email: "Click this card to see more details about this mentor.",
-  //   },
-  //   {
-  //     name: "Jenny Doe",
-  //     image: "pic2.jpg",
-  //     role: "Frontend Developer",
-  //     phone: "1234567890",
-  //     email: "sk@gmail.ds",
-  //   },
-  //   {
-  //     name: "Daniel White",
-  //     image: "pic3.webp",
-  //     role: "Cybersecurity Analyst",
-  //     phone: "1234567890",
-  //     email: "daniel.white@example.com",
-  //   },
-  //   {
-  //     name: "Mahesh Kakde",
-  //     image: "pic4.jpg",
-  //     role: "Full Stack Developer",
-  //     phone: "1234567890",
-  //     email: "mahif@gmail.as",
-  //   },
-  //   {
-  //     name: "John Doe",
-  //     image: "pic5.avif",
-  //     role: "UI/UX Designer",
-  //     phone: "1234567890",
-  //     email: "john.doe@example.com",
-  //   },
-  //   {
-  //     name: "Jane Smith",
-  //     image: "pic6.jpg",
-  //     role: "Backend Developer",
-  //     phone: "1234567890",
-  //     email: "jane.smith@example.com",
-  //   },
-  //   {
-  //     name: "Alex Johnson",
-  //     image: "pic7.avif",
-  //     role: "Data Scientist",
-  //     phone: "1234567890",
-  //     email: "alex.johnson@example.com",
-  //   },
-  //   {
-  //     name: "Emily Davis",
-  //     image: "pic8.avif",
-  //     role: "Mobile App Developer",
-  //     phone: "1234567890",
-  //     email: "emily.davis@example.com",
-  //   },
-  //   {
-  //     name: "Chris Miller",
-  //     image: "pic9.avif",
-  //     role: "DevOps Engineer",
-  //     phone: "1234567890",
-  //     email: "chris.miller@example.com",
-  //   },
-  //   {
-  //     name: "Sophia Wilson",
-  //     image: "pic10.jpg",
-  //     role: "Machine Learning Engineer",
-  //     phone: "1234567890",
-  //     email: "sophia.wilson@example.com",
-  //   },
-
-  // ];
 
   const router = useRouter();
 
@@ -139,7 +63,7 @@ const DashboardPage = (props: Props) => {
       console.error("Error fetching mentor data:", response);
     }
     else {
-      console.log("Mentor Data:", response.data.mentorData);
+      console.log("Mentor Data:", response.data.mentorData[0].user._id);
       setMentorData(response.data.mentorData);
     }
   }
@@ -213,12 +137,13 @@ const DashboardPage = (props: Props) => {
         {/* displaying mentor cards */}
         <div className=' flex flex-wrap w-auto h-auto '>
           {mentordata.map((mentor: MentorData, index) => {
+            console.log(mentor);
             return (
               <Card 
                 mentorData={{
                   id: mentor.user._id,
                   name: mentor.user.name,
-                  role: mentor.roles[0],
+                  role: mentor.roles,
                   phone: mentor.user.mobile,
                   email: mentor.user.email,
                 }}

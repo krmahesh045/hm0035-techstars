@@ -3,8 +3,16 @@
 
 
 import React from 'react';
-
 import Image from 'next/image';
+import { FC, useEffect, useState } from "react";
+import axios from 'axios';
+
+
+interface MentorProfileProps {
+  params: {
+    mentorProfile: string;
+  };
+}
 
 type feedback = {
   name: string;
@@ -13,18 +21,37 @@ type feedback = {
   stars: number;
 }
 
-const MentorDetailPage: React.FC = () => {
+
+
+const MentorDetailPage: FC<MentorProfileProps> = ({params}) => {
   // Assuming you have mentor data
-  const mentorData = {
-    name: 'Rachel Smith',
-    image: 'pic1.jpg',
-    role: 'Web Developer',
-    phone: '1234567890',
-    email: 'mentor@example.com',
-    skills: ['React', 'Node.js', 'JavaScript'],
-    qualification: 'Bachelor of Science in Computer Science',
-    feedback: ['Excellent mentor!', 'Very knowledgeable.'],
+
+  const [mentorId, setMentorId] = useState(params.mentorProfile) 
+  const [mentorData, setMentorData] = useState({
+    name: '',
+    role: '',
+    skills: [],
+    qualification: '',
+    feedback: [],
+    phone: '',
+    email: '',
+    about: ''
+  });
+
+  const fetchProfile = async () => {
+    // fetch mentor data
+    const data = {
+      userId: mentorId
+    }
+    console.log(data.userId);
+    const response = await axios.post('/api/mentorProfile', data);
+    console.log(response.data); 
+    setMentorData(response.data.mentor);
   };
+
+  useEffect(() => {
+    fetchProfile();
+  }, []);
 
   const [feedback, setFeedback] = React.useState<feedback[]>([]);
 

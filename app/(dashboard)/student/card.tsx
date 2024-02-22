@@ -1,5 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 
 interface CardProps {
   mentorData: {
@@ -16,7 +17,7 @@ const Card: React.FC<CardProps> = ({ mentorData }) => {
   const {id, name, role, phone, email} = mentorData;
 
   return (
-    <a href={`student/${id}`}>
+    <Link href={`student/${id}`}>
       <div className='w-1/4 p-4 justify-center items-center'>
         <div className="h-96 w-80 bg-[#f7f7fb] p-10 rounded-xl shadow-lg flex flex-col justify-space-around items-center gap-4 border-2 border-zinc-300">
           
@@ -40,7 +41,7 @@ const Card: React.FC<CardProps> = ({ mentorData }) => {
           <h1 className="text-zinc-700">{email}</h1>
         </div>
       </div>
-    </a>
+    </Link>
   );
 };
 
