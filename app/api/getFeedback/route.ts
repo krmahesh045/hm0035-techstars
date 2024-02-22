@@ -9,7 +9,7 @@ connectMongoDB();
 export async function GET() {
   try {
     const feedbacks = await Feedback.find();
-    console.log("Feedbacks for mentor:", feedbacks);
+    // console.log("Feedbacks for mentor:", feedbacks);
     return NextResponse.json({
       message: "Success",
       feedbacks: feedbacks,
