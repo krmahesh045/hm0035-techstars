@@ -9,6 +9,7 @@ import { useState } from 'react';
 import Link from 'next/link'
 import axios from 'axios';
 import { NextResponse } from 'next/server';
+import toast, { Toaster } from 'react-hot-toast';
 
 type Props = {}
 
@@ -23,12 +24,20 @@ function SignInPage({}: Props) {
 
 
   const handleSignIn = async () => { 
+
+    if(!email || !password) {
+      setError("Please enter email and password");
+      toast.error("Please enter email and password");
+      return;
+    }
     
     try{
       const response:any = await axios.post('/api/signin',{email,password});
-      console.log(response);
+      console.log(response.data.error);
+     
       if(response.status !== 200) {
         setError("Error logging in. Please try again.");
+        toast.error(response.data.error);
         return NextResponse.json({ error: "Please enter email and password" });
       }
       else {
@@ -43,6 +52,7 @@ function SignInPage({}: Props) {
     }catch(error){
       console.error("Error logging in", error);
       setError("Error logging in. Please try again.");
+      toast.error("Error logging in. Please try again.");
     }
   }
 
@@ -50,6 +60,10 @@ function SignInPage({}: Props) {
  
   return (
     <div className="h-screen w-screen flex items-center justify-center bg-[#FBF9F1]">
+      <Toaster 
+        position="bottom-right"
+        reverseOrder={false}
+      />
       <div className="shadow-xl h-[800px] w-[1400px] flex rounded-lg overflow-hidden">
         <div className="bg-[#18181b] lg:w-[50%] text-white p-12 lg:flex flex-col justify-between hidden ">
          

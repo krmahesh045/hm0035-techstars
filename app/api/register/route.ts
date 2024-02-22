@@ -7,51 +7,76 @@ import Match from "@/models/match";
 import bcryptjs from "bcryptjs";
 
 export async function POST(request : NextRequest){
-    const  { name, email, password, phone, address, role, matchtest } = await request.json();
+    const  { name, email, password, phone, address, role, experties, skills, qualification, about, github, linkedin, udemy, youtube,other, matchtest } = await request.json();
     await connectMongoDB();
-    
     // Hash the password
     const salt = await bcryptjs.genSalt(10);
     const hashedPassword = await bcryptjs.hash(password, salt);
     // Create a new user
-    const newUser = await User.create({name, email, password: hashedPassword, phone, address, role });
+    const newUser = await User.create({name, email, password: hashedPassword, phone, address, role});
     await newUser.save();
-
 
 
     // Create a new student or mentor
     if(role === 'student'){
-        let matchdata: number[] = [];
+        let matchdata: String[] = [];
         for(const param in matchtest) {
             for(const value in matchtest[param]) {
-                if (matchtest[param][value]) matchdata.push(1);
-                else matchdata.push(0);
+                if(matchtest[param][value] === true){
+                    const str = value + " " + param;
+                    matchdata.push(str);
+                }
+                else{
+                    const str = "No " + value+ " " + param;
+                    matchdata.push(str);
+                }
             }
         }
 
-        const student = await Student.create({"userId": newUser._id, testData : matchdata, ...matchtest});
+        const student = await Student.create({"userId": newUser._id, testData : matchdata,skills, qualification, about, github, linkedin, other, ...matchtest});
         await student.save();
         return NextResponse.json({
             message: "Student Created.",
             newUser,
+            student,
             matchdata
         });
     }
     
     else if (role === 'mentor') {
-        //await Match.create({count: 0, testData: {}});
+        const matchCount = await Match.countDocuments();
 
-        const mentor = await Mentor.create({ "userId": newUser._id, ...matchtest });
+        if (matchCount === 0) {
+            // Match collection is empty or doesn't exist
+            // Create a new document with initial empty values
+            const newMatch = new Match({
+                testData: { },
+                count: 0
+            });
+            
+            await newMatch.save();
+        }
+
+        const mentor = await Mentor.create({ "userId": newUser._id, experties, skills, qualification, about, udemy, linkedin, youtube, other, ...matchtest });
+        
         await mentor.save();
+    
         let doc = await Match.findOne();
 
         // Increment the number field
         doc.count = doc.count + 1;
-        let matchdata: number[] = [];
+
+        let matchdata: String[] = [];
         for(const param in matchtest) {
             for(const value in matchtest[param]) {
-                if (matchtest[param][value]) matchdata.push(1);
-                else matchdata.push(0);
+                if(matchtest[param][value] === true){
+                    const str = value + " " + param;
+                    matchdata.push(str);
+                }
+                else{
+                    const str = "No " + value+ " " + param;
+                    matchdata.push(str);
+                }
             }
         }
 
@@ -63,7 +88,9 @@ export async function POST(request : NextRequest){
         return NextResponse.json({
             message: "Mentor Created.",
             newUser,
+            mentor,
             matchdata
+
         });
     } 
     else {

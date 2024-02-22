@@ -12,10 +12,9 @@ export async function GET(request: NextRequest) {
   await connectMongoDB();
 
   try {
-    const userId = getDataFromToken(request);
+    const {userId, role} = getDataFromToken(request);
     
     const user = await User.findOne({ _id: userId }).select('-password');
-    const role = user.role;
     if(role === 'student'){
         const student = await Student.findOne({userId: userId});
         return  NextResponse.json({

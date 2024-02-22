@@ -4,6 +4,7 @@ import React from "react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import axios from "axios";
+import {toast, Toaster} from "react-hot-toast"
 
 interface TeacherRegisterForm {
   name: string;
@@ -167,17 +168,24 @@ const TeacherRegisterPage = () => {
         if (response.data.message === 'Student Created.' || response.data.message === 'Mentor Created.') {
           // Handle success, e.g., show a success message
           console.log(response.data.message);
+    
         } else {
           // Handle error, e.g., show an error message
           console.error('Registration failed');
+          toast.error('Registration failed');
         }
       } catch (error) {
         console.error(error);
+        toast.error('Registration failed');
       }
   }
 
   return (
     <div className="h-screen w-screen p-5   ">
+      <Toaster
+        position="top-center"
+        reverseOrder={false}
+      />
       {/* topbar */}
       <div className="h-[10vh] w-screen flex bg-white gap-5 items-center fixed">
         <svg
