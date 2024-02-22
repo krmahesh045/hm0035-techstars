@@ -88,7 +88,7 @@ Animation:
 ![alt text](/Screenshots/mentorDetail.png)
 
 ## Deployed Url
-[Link to Deployed Solution](gfgpccoe.in)
+[Link to Deployed Solution](https://mentorlink.vercel.app/)
 
 ## Video Url
 [Link to Demo Video](https://drive.google.com/file/d/1VA5Hsri9ZdWWPoDqNLTmzylrPzfuBvjZ/view)

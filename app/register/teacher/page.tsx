@@ -537,8 +537,12 @@ const TeacherRegisterPage = () => {
                 </div>
               </span>
 
+<<<<<<< HEAD
 {/* radio button */}
               <span className="flex flex-col">
+=======
+              {/* <span className="flex flex-col">
+>>>>>>> 003ebd0f71655caeba2077c2377e13566aab3fb9
                 <b>Experience: </b>How many years of teaching experience do you
                 have?
                 <div className="flex flex-col">
@@ -598,7 +602,7 @@ const TeacherRegisterPage = () => {
                     7+ years
                   </div>
                 </div>
-              </span>
+              </span> */}
 
              
             </div>
@@ -795,8 +799,12 @@ const TeacherRegisterPage = () => {
                 </div>
               </span>
 
+<<<<<<< HEAD
 {/* radio button */}
               <span className="flex flex-col">
+=======
+              {/* <span className="flex flex-col">
+>>>>>>> 003ebd0f71655caeba2077c2377e13566aab3fb9
                 <b>Mentoring Experience: </b>Do you have any experience in
                 mentoring?
                 <div className="flex flex-col">
@@ -841,7 +849,7 @@ const TeacherRegisterPage = () => {
                     No
                   </div>
                 </div>
-              </span>
+              </span> */}
 
               <span className="flex flex-col">
                 <b>Teaching Challenge: </b>What is your biggest challenge in
