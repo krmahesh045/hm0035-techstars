@@ -13,7 +13,7 @@ export function middleware(request: NextRequest) {
     if(isPublicPath && token) {
       // const decodedToken:any = jwt.verify(token, process.env.TOKEN_SECRET!);
       // const role = "/" + decodedToken.role
-      return NextResponse.redirect(new URL('/mentor', request.nextUrl))
+      return NextResponse.redirect(new URL('/student', request.nextUrl))
     }
 
     if (!isPublicPath && !token) {

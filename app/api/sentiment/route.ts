@@ -10,10 +10,7 @@ export async function POST(request: NextRequest) {
   try {
     const { feedbackArray } = await request.json();
 
-    // Check if feedbackArray is provided
-    if (!feedbackArray || !Array.isArray(feedbackArray) || feedbackArray.length === 0) {
-      return NextResponse.error();
-    }
+    console.log('Feedback array:', feedbackArray);
 
     // Call the external API for sentiment analysis
     const response = await fetch('http://localhost:3001/sentiment-analysis', {
@@ -31,9 +28,12 @@ export async function POST(request: NextRequest) {
 
     // Parse the response from the external API
     const responseData = await response.json();
-
+    console.log('Sentiment analysis response:', responseData);
     // Return the response from the sentiment-analysis API
-    return NextResponse.json(responseData);
+    return NextResponse.json({
+        status: 200,
+        message: "Sentiment analysis successful",
+        value: responseData.result});
 
   } catch (error) {
     console.error(error);

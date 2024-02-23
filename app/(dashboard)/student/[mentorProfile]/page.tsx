@@ -82,7 +82,6 @@ const MentorDetailPage: FC<MentorProfileProps> = ({ params }) => {
   // feedbck function
 
   // dummy feedbacks
-
   const dummyFeedback: feedback[] = [
     {
       name: 'John Doe',
@@ -92,7 +91,78 @@ const MentorDetailPage: FC<MentorProfileProps> = ({ params }) => {
       starsRating: 5,
       date: new Date()
     },
-  ]
+    {
+      name: 'Alice Smith',
+      mentorId: '2',
+      studentId: '3',
+      message: 'The mentor was extremely helpful and patient with me.',
+      starsRating: 5,
+      date: new Date()
+    },
+    {
+      name: 'Bob Johnson',
+      mentorId: '3',
+      studentId: '2',
+      message: 'Great mentorship experience! Learned a lot.',
+      starsRating: 4,
+      date: new Date()
+    },
+    {
+      name: 'Emily Brown',
+      mentorId: '4',
+      studentId: '4',
+      message: 'The mentor was knowledgeable and provided valuable insights.',
+      starsRating: 4,
+      date: new Date()
+    },
+    {
+      name: 'David Lee',
+      mentorId: '5',
+      studentId: '5',
+      message: 'I appreciate the mentors dedication and support throughout.',
+      starsRating: 5,
+      date: new Date()
+    },
+    {
+      name: 'Samantha Taylor',
+      mentorId: '6',
+      studentId: '6',
+      message: 'The mentor lacked patience and didn\'t explain concepts clearly.',
+      starsRating: 2,
+      date: new Date()
+    },
+    {
+      name: 'Michael Clark',
+      mentorId: '7',
+      studentId: '7',
+      message: 'The mentor seemed disinterested and didn\'t provide useful guidance.',
+      starsRating: 1,
+      date: new Date()
+    },
+    {
+      name: 'Emma Wilson',
+      mentorId: '8',
+      studentId: '8',
+      message: 'I had a negative experience with the mentor. Lack of communication.',
+      starsRating: 2,
+      date: new Date()
+    }
+  ];
+
+  //sentiment score for dummy feedbacks
+  const sentimentScore = async () => {
+    // create array of last 8 feedback massage to send to sentiment analysis 
+    const feedbacks = dummyFeedback.map((feedback) => feedback.message);
+    console.log("Feedbacks:", feedbacks);
+    const data = {
+      feedbackArray: feedbacks
+    }
+    const response = await axios.post('/api/sentiment/', data);
+    console.log("Sentiment response:", response);
+    setSentiment(response.data.value);
+  };
+  
+
 
   const [feed , setFeeds] = useState<feedback[]>(dummyFeedback);
   const [feedback, setFeedback] = useState<feedback>(
@@ -105,6 +175,8 @@ const MentorDetailPage: FC<MentorProfileProps> = ({ params }) => {
       date: new Date()
     }
   );
+
+  const [sentiment, setSentiment] = useState<number>(0);
 
 
   const handlefeedback = () => {
@@ -147,6 +219,7 @@ const MentorDetailPage: FC<MentorProfileProps> = ({ params }) => {
     }
     
     const response = await axios.post('/api/mentorProfile', data);
+    console.log("Mentor data:", response.data);
     
     setMentorData(response.data);
   };
@@ -168,6 +241,7 @@ const MentorDetailPage: FC<MentorProfileProps> = ({ params }) => {
   useEffect(() => {
     fetchProfile();
     matchPercentageFunction();
+    sentimentScore();    
   },[]);
  
 
@@ -186,9 +260,7 @@ const MentorDetailPage: FC<MentorProfileProps> = ({ params }) => {
         </div>
 
         <div className='h-full flex flex-col justify-center mt-10 ml-[-250px] gap-10'>
-          <h1 className='text-3xl font-semibold text-white ml-[400px] '>
-            {matchPercentage} % Match
-          </h1>
+          
           <h1 className='text-7xl font-semibold text-white ml-[400px] '>
             {mentorData.user.name}
           </h1>
@@ -235,6 +307,13 @@ const MentorDetailPage: FC<MentorProfileProps> = ({ params }) => {
         <div className='flex flex-col w-full'>
 
           <div className='w-1/2'>
+            <h1 className='text-6xl w-full ml-[500px] font-semibold text-purple-800 text-right'>
+              <span className='text-xl'>
+               Match Score
+              </span>
+              <br />
+              {matchPercentage} % 
+            </h1>   
             <h1 className='text-3xl font-semibold mb-7'>About</h1>
             <p className='text-lg'>
               {mentorData.mentor.about}
@@ -268,11 +347,15 @@ const MentorDetailPage: FC<MentorProfileProps> = ({ params }) => {
               >
                 Submit
               </button>
+              
             </div>
+            <h1 className='text-xl font-bold mt-4'>
+                Sentiment Score: {sentiment}
+              </h1>
             <div className='flex flex-col gap-2 p-2 mt-4'>
 
               {/* map feedbacks */}
-              {feed.map((feedback, index) => (
+              {dummyFeedback.map((feedback, index) => (
                 <div key={index} className='flex flex-col gap-2 p-4 px-5 w-full rounded-xl shadow-lg bg-white'>
                   <div className='flex justify-between'>
                     <h1 className='text-lg font-semibold'>{feedback.name}</h1>
