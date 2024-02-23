@@ -112,10 +112,10 @@ const MentorDetailPage: FC<MentorProfileProps> = ({ params }) => {
     }
     axios.post('/api/feedback/', data)
       .then((response) => {
-        console.log(response.data);
+        
       })
       .catch((error) => {
-        console.log(error);
+        
       });
 
   };
@@ -125,15 +125,27 @@ const MentorDetailPage: FC<MentorProfileProps> = ({ params }) => {
     const data = {
       userId: mentorId
     }
-    console.log(data.userId);
+    
     const response = await axios.post('/api/mentorProfile', data);
-    console.log(response.data.user);
-    console.log(response.data.mentor);
+    
     setMentorData(response.data);
   };
 
+    // match percentage
+    const [matchPercentage, setMatchPercentage] = useState<number>(0);
+
+    // match percentage function
+    const matchPercentageFunction = async () => {
+      const data = {
+        mentorId: mentorId,
+      }
+      const response = await axios.post('/api/match',data);
+      console.log("match data:"+response);
+    };
+
   useEffect(() => {
     fetchProfile();
+    matchPercentageFunction();
   },[]);
  
 

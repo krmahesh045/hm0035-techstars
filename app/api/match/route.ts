@@ -4,7 +4,7 @@ import Mentor from '@/models/mentor';
 import { NextRequest, NextResponse } from 'next/server';
 import { getDataFromToken } from '@/helpers/getDataFromToken';
 
-export async function GET(request: NextRequest) {
+export async function POST(request: NextRequest) {
 
   await connectMongoDB();
 
@@ -12,14 +12,18 @@ export async function GET(request: NextRequest) {
     const { mentorId } = await request.json();
     const { userId } = getDataFromToken(request);
 
-    const studentsArray = await Student.find({ userId }).select('userId testData');
-    const mentorsArray = await Mentor.find({ userId: mentorId }).select('userId testData');
+    const student = await Student.findOne({ userId }).select('userId testData');
+    const mentor = await Mentor.findOne({ userId: mentorId }).select('userId testData');
+
+    const studentsArray = student.testData;
+    const mentorsArray = mentor.testData;
 
     // Prepare data to send to external API
     const requestData = {
       studentsArray,
       mentorsArray, // Corrected key name
     };
+    console.log(requestData);
 
     // Call the external API
     const response = await fetch('http://localhost:3001/calculate-similarity', {
