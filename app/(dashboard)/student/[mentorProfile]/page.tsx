@@ -92,6 +92,7 @@ const MentorDetailPage: FC<MentorProfileProps> = ({ params }) => {
     },
   ]
 
+  const [feed , setFeeds] = useState<feedback[]>(dummyFeedback);
   const [feedback, setFeedback] = useState<feedback>(
     {
       name: '',
@@ -102,14 +103,17 @@ const MentorDetailPage: FC<MentorProfileProps> = ({ params }) => {
       date: new Date()
     }
   );
- 
+
+
   const handlefeedback = () => {
     const data = {
       mentorId: mentorId,
-      studentId: '',
+      studentId: "",
       message: feedback.message,
-      starRating: feedback.starsRating,
+      starRating: 5,
     }
+    console.log("Feedback data", data);
+
     axios.post('/api/feedback/', data)
       .then((response) => {
         console.log(response.data);
@@ -117,8 +121,22 @@ const MentorDetailPage: FC<MentorProfileProps> = ({ params }) => {
       .catch((error) => {
         console.log(error);
       });
-
   };
+
+  const fetchFeedbacks = async () => {
+    try{
+      const data : any = {
+        mentorId: mentorId,
+      }
+      const response = await axios.get('/api/getFeedback' , data);
+      setFeeds(response.data);
+      console.log('Feedbacks:', response.data);
+    }catch(error){
+      console.log("Error fetching feedbacks:", error);
+    }
+    }
+  
+
 
   const fetchProfile = async () => {
     // fetch mentor data
@@ -134,8 +152,9 @@ const MentorDetailPage: FC<MentorProfileProps> = ({ params }) => {
 
   useEffect(() => {
     fetchProfile();
-  },[]);
- 
+    fetchFeedbacks();
+  }, []);
+
 
   return (
     <div className="h-screen w-screen bg-white flex flex-col">
@@ -214,15 +233,16 @@ const MentorDetailPage: FC<MentorProfileProps> = ({ params }) => {
             </div>
           </div>
 
+
+{/* feedback section--------------------- */}
           <div className='w-full flex flex-col h-aut p-5 pt-10'>
             <div className='w-full p-2 px-5 rounded-xl   border-2 border-zinc-500 bg-white flex justify-between'>
               <input
                 type="text"
-                placeholder='Type  your feedback here'
+                placeholder='Type your feedback here'
                 className='p-2 w-[1250px] outline-none'
                 value={feedback.message}
-                onClick={(e) => setFeedback({ ...feedback, message: e.target.value })}
-                
+                onChange={(e) => setFeedback({ ...feedback, message: e.target.value })}
               />
               {/* submit button */}
               <button className='bg-violet-500 text-white py-2 px-4 rounded-full w-30 flex justify-center items-center'
@@ -234,7 +254,7 @@ const MentorDetailPage: FC<MentorProfileProps> = ({ params }) => {
             <div className='flex flex-col gap-2 p-2 mt-4'>
 
               {/* map feedbacks */}
-              {dummyFeedback.map((feedback, index) => (
+              {feed.map((feedback, index) => (
                 <div key={index} className='flex flex-col gap-2 p-4 px-5 w-full rounded-xl shadow-lg bg-white'>
                   <div className='flex justify-between'>
                     <h1 className='text-lg font-semibold'>{feedback.name}</h1>
