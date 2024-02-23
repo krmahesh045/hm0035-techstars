@@ -31,7 +31,8 @@ export async function POST(request : NextRequest){
                 }
             }
         }
-
+        
+        matchdata.push(other);
         const student = await Student.create({userId, testData : matchdata,skills, qualification, about, github, linkedin, other, ...matchtest});
         await student.save();
         return NextResponse.json({
