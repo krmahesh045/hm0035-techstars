@@ -12,7 +12,7 @@ export async function POST(request: NextRequest) {
 
     // Check if feedbackArray is provided
     if (!feedbackArray || !Array.isArray(feedbackArray) || feedbackArray.length === 0) {
-      return NextResponse.error(new Error('Feedback array is required.'));
+      return NextResponse.error();
     }
 
     // Call the external API for sentiment analysis

@@ -23,7 +23,6 @@ export async function POST(request: NextRequest) {
       studentsArray,
       mentorsArray, // Corrected key name
     };
-    console.log(requestData);
 
     // Call the external API
     const response = await fetch('http://localhost:3001/calculate-similarity', {
@@ -37,8 +36,14 @@ export async function POST(request: NextRequest) {
     // Parse the response from the external API
     const responseData = await response.json();
     console.log(responseData);
+    const res = responseData.result;
+    console.log(typeof(res));
     // Return the response from the external API
-    return NextResponse.json(responseData);
+    return NextResponse.json({
+      success: true,
+      value: res,
+      status : 200  
+    });
 
   } catch (error) {
     console.error(error);

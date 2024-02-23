@@ -140,7 +140,7 @@ const MentorDetailPage: FC<MentorProfileProps> = ({ params }) => {
         mentorId: mentorId,
       }
       const response = await axios.post('/api/match',data);
-      console.log("match data:"+response);
+      console.log("match data:",response.data);
     };
 
   useEffect(() => {
