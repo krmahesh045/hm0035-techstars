@@ -6,6 +6,7 @@ import { getDataFromToken } from '@/helpers/getDataFromToken';
 
 export async function POST(request: NextRequest) {
 
+  console.log("Request gayi...");
   await connectMongoDB();
 
   try {
@@ -23,7 +24,6 @@ export async function POST(request: NextRequest) {
       studentsArray,
       mentorsArray, // Corrected key name
     };
-
     // Call the external API
     const response = await fetch('http://localhost:3001/calculate-similarity', {
       method: 'POST',

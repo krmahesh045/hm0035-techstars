@@ -7,6 +7,8 @@ import Image from 'next/image';
 import { FC, useEffect, useState } from "react";
 import axios from 'axios';
 import Link from 'next/link';
+import { set } from 'mongoose';
+import { match } from 'assert';
 
 
 interface MentorProfileProps {
@@ -157,12 +159,15 @@ const MentorDetailPage: FC<MentorProfileProps> = ({ params }) => {
       const data = {
         mentorId: mentorId,
       }
+      console.log("Axios executed");
       const response = await axios.post('/api/match',data);
       console.log("match data:",response.data);
+      setMatchPercentage(response.data.value);
     };
 
   useEffect(() => {
     fetchProfile();
+    matchPercentageFunction();
   },[]);
  
 
@@ -181,6 +186,9 @@ const MentorDetailPage: FC<MentorProfileProps> = ({ params }) => {
         </div>
 
         <div className='h-full flex flex-col justify-center mt-10 ml-[-250px] gap-10'>
+          <h1 className='text-3xl font-semibold text-white ml-[400px] '>
+            {matchPercentage} % Match
+          </h1>
           <h1 className='text-7xl font-semibold text-white ml-[400px] '>
             {mentorData.user.name}
           </h1>
